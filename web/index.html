@@ -35,7 +35,7 @@
           </dl>
           <p class="caption">请求不携带登录凭据，每项最多等待 8 秒。服务方会看到您的请求与出口 IP，可能按其政策记录。页面不会替您登录 Claude，也不会绕过浏览器的访问限制。</p>
           <label class="option"><input type="checkbox" id="webrtc-optin"><span>额外检查 WebRTC 候选地址<small>会联系 <code>stun.cloudflare.com:3478</code>。仅收集 ICE 候选，不请求麦克风或摄像头权限。浏览器可能隐藏地址，未发现候选不能证明没有泄漏。</small></span></label>
-          <div class="actions"><button class="button primary" id="start">运行浏览器体检</button><button class="button secondary" id="cancel" hidden>停止检测</button></div>
+          <div class="actions"><button class="button primary" id="start" disabled>运行浏览器体检</button><button class="button secondary" id="cancel" hidden>停止检测</button></div>
           <p class="caption">时区、语言与在线状态只用于说明当前上下文，不生成指纹标识，不评估封号概率。</p>
         </div>
         <aside class="run-panel" aria-label="真实检测进度">
@@ -44,7 +44,7 @@
           <div class="scope-note"><span class="mono">SCOPE</span><p>当前浏览器</p><small>结果不代表整台电脑，不代表 Claude 账号资格或健康状态。</small></div>
         </aside>
       </div>
-      <p id="live-status" class="live-status" role="status" aria-live="polite"></p>
+      <p id="live-status" class="live-status" role="status" aria-live="polite">正在加载检测组件。</p>
       <p id="error" class="error" role="alert" hidden></p>
     </section>
     <section id="results-section" class="section results" aria-labelledby="results-title" hidden>
@@ -56,7 +56,7 @@
     </section>
     <section class="section local-section" aria-labelledby="local-title">
       <div class="section-heading"><p class="eyebrow">LOCAL / AGENT SKILL</p><h2 id="local-title">让 Agent 检查本机</h2><p>本机工具进一步检查安装、CLI 登录状态、启动环境、代理与路由。它输出可核对的 JSON 和中文报告。</p></div>
-      <div class="local-grid"><div><p>把开源项目中的 Skill 交给具有本地终端权限的 Agent，先运行只读检查。网络探测需要单独启用。云端 Agent 检查的是它所在的机器。</p><a class="text-link" href="https://github.com/HeiGeAi/claude-environment-check#使用方式" target="_blank" rel="noopener noreferrer">查看安装与使用方法 <span aria-hidden="true">↗</span></a><p class="caption download-copy">也可以<a href="../downloads/check.py" download>下载本机检查脚本</a>，先查看源码，再用 Python 运行。默认只读检查，不要求安装额外 Python 库。</p><pre class="command"><code>python3 check.py --run-location local_mac</code></pre></div><div class="import-panel"><h3>在这里阅读本机报告</h3><p class="caption">选择工具导出的 JSON，最多 1 MiB。文件只在此浏览器解析，不会上传。导入记录反映生成时的机器状态。</p><label class="button secondary file-label" for="report-file">选择本机报告</label><input id="report-file" type="file" accept=".json,application/json"><button class="text-button" id="reset" hidden>清除当前报告</button><p id="import-error" role="alert" class="error" hidden></p></div></div>
+      <div class="local-grid"><div><p>把开源项目中的 Skill 交给具有本地终端权限的 Agent，先运行只读检查。网络探测需要单独启用。云端 Agent 检查的是它所在的机器。</p><a class="text-link" href="https://github.com/HeiGeAi/claude-environment-check#使用方式" target="_blank" rel="noopener noreferrer">查看安装与使用方法 <span aria-hidden="true">↗</span></a><p class="caption download-copy">也可以<a href="../downloads/check.py" download>下载本机检查脚本</a>，先查看源码，再用 Python 运行。默认只读检查，不要求安装额外 Python 库。</p><pre class="command"><code>python3 check.py --run-location local_mac</code></pre></div><div class="import-panel"><h3>在这里阅读本机报告</h3><p class="caption">选择工具导出的 JSON，最多 1 MiB。文件只在此浏览器解析，不会上传。导入记录反映生成时的机器状态。</p><label class="button secondary file-label" for="report-file">选择本机报告</label><input id="report-file" disabled type="file" accept=".json,application/json"><button class="text-button" id="reset" hidden>清除当前报告</button><p id="import-error" role="alert" class="error" hidden></p></div></div>
     </section>
     <section class="scope-footer section"><h2>把「未验证」留在结果里。</h2><p>公网 IP、代理开关或一次成功连接，都不能证明所有流量始终走同一条路径。DNS、断网阻断、真实故障演练与账号状态，需要各自独立的证据。</p><a class="text-link" href="../">回到手册继续排查 <span aria-hidden="true">↗</span></a></section>
   </main>

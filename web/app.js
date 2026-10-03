@@ -256,3 +256,8 @@ $('reset').addEventListener('click', () => {
   for (const item of $('progress').children) item.classList.remove('current', 'complete');
   $('report-file').focus();
 });
+
+// 静态内容可以先显示，交互在所有事件绑定完成后才开放。
+$('report-file').disabled = false;
+$('start').disabled = false;
+$('live-status').textContent = '组件已就绪，检测由您点击后开始。';
