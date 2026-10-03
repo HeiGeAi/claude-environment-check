@@ -1,0 +1,139 @@
+/* ============================================================
+   第 13 章 · 隐私与遥测（.s-privacy 作用域）
+   ============================================================ */
+.s-privacy .pv-meta { max-width: 760px; margin-bottom: clamp(32px, 4vw, 56px); }
+
+.s-privacy .pv-stage { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.9fr); gap: clamp(20px, 4vw, 56px); align-items: center; }
+
+/* ---------------- 仿系统设置窗口 ---------------- */
+.s-privacy .pv-window {
+  border-radius: 24px; overflow: hidden;
+  background: linear-gradient(180deg, rgba(30, 35, 52, 0.86), rgba(16, 19, 28, 0.9));
+  border: 1px solid var(--line-2);
+  box-shadow: 0 50px 100px -40px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px) saturate(1.3); -webkit-backdrop-filter: blur(20px) saturate(1.3);
+}
+.s-privacy .pv-window__bar {
+  display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+  border-bottom: 1px solid var(--line); background: rgba(244, 239, 230, 0.03);
+}
+.s-privacy .pv-dots { display: flex; gap: 7px; }
+.s-privacy .pv-dots i { width: 12px; height: 12px; border-radius: 50%; }
+.s-privacy .pv-dots i:nth-child(1) { background: #ff5f57; } .s-privacy .pv-dots i:nth-child(2) { background: #febc2e; } .s-privacy .pv-dots i:nth-child(3) { background: #28c840; }
+.s-privacy .pv-window__title { font-weight: 800; font-size: 15px; color: var(--text); }
+.s-privacy .pv-demo { margin-left: auto; font-size: 12px; }
+.s-privacy .pv-window__hint { margin: 0; padding: 14px 22px 4px; font-size: 14px; color: var(--text-3); }
+
+.s-privacy .pv-rows { padding: 8px 12px 12px; }
+.s-privacy .pv-row { border-radius: 16px; transition: background var(--t-mid) var(--ease-out); }
+.s-privacy .pv-row + .pv-row { margin-top: 2px; }
+.s-privacy .pv-row.is-on { background: color-mix(in srgb, var(--c) 7%, transparent); }
+.s-privacy .pv-row__head { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px; padding: 14px 12px; }
+.s-privacy .pv-row + .pv-row .pv-row__head { border-top: 1px solid var(--line); }
+.s-privacy .pv-row.is-on .pv-row__head, .s-privacy .pv-row.is-on + .pv-row .pv-row__head { border-top-color: transparent; }
+.s-privacy .pv-row__ico {
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 12px;
+  color: var(--c); background: color-mix(in srgb, var(--c) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--c) 34%, transparent);
+  transition: box-shadow var(--t-mid), background var(--t-mid);
+}
+.s-privacy .pv-row.is-on .pv-row__ico { box-shadow: 0 0 22px color-mix(in srgb, var(--c) 45%, transparent); }
+.s-privacy .pv-row__txt { display: flex; flex-direction: column; min-width: 0; }
+.s-privacy .pv-row__name { font-weight: 800; font-size: 17px; line-height: 1.4; }
+.s-privacy .pv-row__sub { font-size: 13.5px; color: var(--text-3); line-height: 1.5; }
+
+/* 拨杆 */
+.s-privacy .pv-switch { flex: none; border-radius: var(--r-pill); padding: 4px; margin: -4px; }
+.s-privacy .pv-switch__track {
+  position: relative; display: block; width: 64px; height: 36px; border-radius: var(--r-pill); padding: 4px;
+  background: rgba(244, 239, 230, 0.12); border: 1px solid var(--line-2);
+  transition: background 0.35s var(--ease-out), border-color 0.35s, box-shadow 0.35s;
+}
+.s-privacy .pv-switch__knob {
+  position: absolute; left: 3px; top: 3px; width: 28px; height: 28px; border-radius: 50%;
+  background: linear-gradient(180deg, #fff, #e8e2d6);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45), 0 0 0 0.5px rgba(0, 0, 0, 0.2);
+  will-change: transform;
+}
+.s-privacy .pv-switch[aria-checked='true'] .pv-switch__track {
+  background: var(--c); border-color: transparent;
+  box-shadow: 0 0 22px color-mix(in srgb, var(--c) 55%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+.s-privacy .pv-switch:hover .pv-switch__track { border-color: var(--line-3); }
+
+/* 展开说明 */
+.s-privacy .pv-row__more { overflow: hidden; }
+.s-privacy .pv-row__more[hidden] { display: none; }
+.s-privacy .pv-row__inner { padding: 0 14px 18px 72px; display: grid; gap: 10px; }
+.s-privacy .pv-state { margin: 0; font-size: 12.5px; letter-spacing: 0.06em; color: var(--text-3); }
+.s-privacy .pv-state b { color: var(--c); font-weight: 800; display: inline-block; }
+.s-privacy .pv-kv { padding: 12px 14px; border-radius: 12px; background: rgba(7, 8, 12, 0.45); border: 1px solid var(--line); }
+.s-privacy .pv-k { margin: 0 0 2px; font-size: 12.5px; font-weight: 800; letter-spacing: 0.08em; color: var(--text-3); }
+.s-privacy .pv-v { margin: 0; font-size: 15.5px; line-height: 1.7; color: var(--text); }
+.s-privacy .pv-kv--truth { border-color: rgba(255, 209, 102, 0.3); background: rgba(255, 209, 102, 0.06); }
+.s-privacy .pv-kv--truth .pv-k { color: var(--warn); }
+
+.s-privacy .pv-window__foot {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 14px 22px;
+  border-top: 1px solid var(--line); font-size: 14px; color: var(--text-2); background: rgba(7, 8, 12, 0.3);
+}
+.s-privacy .pv-count { display: inline-block; min-width: 1.2em; text-align: center; font-family: var(--font-latin); font-style: italic; font-weight: 400; font-size: 20px; color: var(--amber); }
+.s-privacy .pv-sep { width: 1px; height: 14px; background: var(--line-3); }
+
+/* ---------------- 小房子 ---------------- */
+.s-privacy .pv-house { margin: 0; text-align: center; align-self: start; position: sticky; top: 110px; }
+.s-privacy .pv-house__svg { width: 100%; max-width: 360px; margin: 0 auto; overflow: visible; }
+.s-privacy .pv-stars circle { fill: #fff1d6; opacity: 0.6; }
+.s-privacy .pv-win__pane { fill: #0a0c12; stroke: rgba(244, 239, 230, 0.22); stroke-width: 1.5; transition: fill 0.7s var(--ease-out), stroke 0.7s; }
+.s-privacy .pv-win__bar { stroke: rgba(244, 239, 230, 0.16); stroke-width: 1.5; fill: none; transition: stroke 0.7s; }
+.s-privacy .pv-win__glow { fill: #ffc070; opacity: 0; filter: blur(10px); transition: opacity 0.9s var(--ease-out); }
+.s-privacy .pv-win.is-on .pv-win__pane { fill: #ffc070; stroke: #ffe0a8; }
+.s-privacy .pv-win.is-on .pv-win__bar { stroke: rgba(122, 58, 20, 0.5); }
+.s-privacy .pv-win.is-on .pv-win__glow { opacity: 0.45; }
+.s-privacy .pv-win[data-w='1'].is-on .pv-win__pane { fill: #b7ceff; stroke: #dbe6ff; }
+.s-privacy .pv-win[data-w='1'] .pv-win__glow { fill: #8fb4ff; }
+.s-privacy .pv-win[data-w='2'].is-on .pv-win__pane { fill: #9ff5cf; stroke: #d6fff0; }
+.s-privacy .pv-win[data-w='2'] .pv-win__glow { fill: #6ff0b8; }
+.s-privacy .pv-win[data-w='3'].is-on .pv-win__pane { fill: #ffa184; stroke: #ffd0c0; }
+.s-privacy .pv-win[data-w='3'] .pv-win__glow { fill: #ff7a52; }
+.s-privacy .pv-plate { filter: drop-shadow(0 0 10px rgba(255, 170, 90, 0.55)); }
+.s-privacy .pv-house figcaption { display: flex; flex-direction: column; gap: 6px; margin-top: 16px; }
+.s-privacy .pv-house__cap { font-size: 15px; color: var(--text-2); line-height: 1.7; }
+
+/* ---------------- 已经寄出的包裹 ---------------- */
+.s-privacy .pv-after { margin-top: clamp(48px, 7vw, 96px); }
+.s-privacy .pv-sent { display: grid; grid-template-columns: minmax(0, 260px) 1fr; gap: clamp(18px, 3vw, 40px); align-items: center; }
+.s-privacy .pv-sent__art { width: 100%; }
+.s-privacy .pv-sent__path { animation: pv-dash 3s linear infinite; }
+@keyframes pv-dash { to { stroke-dashoffset: -36; } }
+.s-privacy .pv-sent .h4 { margin-bottom: 8px; }
+.s-privacy .pv-sent p:last-child { margin-bottom: 0; }
+
+/* ---------------- 进阶 ---------------- */
+.s-privacy .pv-pro { margin-top: clamp(40px, 5vw, 64px); padding-left: 18px; border-left: 2px solid rgba(143, 180, 255, 0.5); }
+.s-privacy .pv-pro__head .h3 { margin: 12px 0 8px; }
+.s-privacy .pv-pro__head .muted { max-width: 44em; }
+.s-privacy .pv-scope { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+.s-privacy .pv-scope__c { display: inline-flex; flex-direction: column; gap: 4px; padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(143, 180, 255, 0.28); background: var(--info-dim); max-width: 100%; }
+.s-privacy .pv-scope__c code { white-space: normal; word-break: break-all; }
+.s-privacy .pv-scope__c em { font-style: normal; font-size: 13px; color: var(--info); font-weight: 700; }
+.s-privacy .pv-scope__c--wide { border-style: dashed; }
+.s-privacy .pv-pro__note { margin-top: 14px; }
+.s-privacy .pv-link { color: var(--info); border-bottom: 1px solid rgba(143, 180, 255, 0.4); }
+.s-privacy .pv-link:hover { color: #c3d5ff; }
+
+@media (max-width: 960px) {
+  .s-privacy .pv-stage { grid-template-columns: 1fr; }
+  .s-privacy .pv-house { max-width: 420px; margin: 0 auto; position: static; }
+}
+@media (max-width: 640px) {
+  .s-privacy .pv-window__bar { flex-wrap: wrap; gap: 10px; }
+  .s-privacy .pv-demo { margin-left: 0; }
+  .s-privacy .pv-rows { padding: 6px 6px 10px; }
+  .s-privacy .pv-row__head { gap: 12px; padding: 14px 8px; }
+  .s-privacy .pv-row__ico { width: 38px; height: 38px; }
+  .s-privacy .pv-row__inner { padding: 0 8px 16px; }
+  .s-privacy .pv-sent { grid-template-columns: 1fr; }
+  .s-privacy .pv-sent__art { max-width: 260px; }
+  .s-privacy .pv-pro { padding-left: 12px; }
+}

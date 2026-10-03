@@ -1,0 +1,114 @@
+/* ============================================================
+   第 14 章 · 流言粉碎机（.s-myths 作用域）
+   ============================================================ */
+
+/* ---------------- 计数条 ---------------- */
+.s-myths .my-bar {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px;
+  margin-bottom: 26px; padding: 12px 14px 12px 12px; border-radius: var(--r-pill);
+  background: rgba(244, 239, 230, 0.04); border: 1px solid var(--line);
+}
+.s-myths .my-bar__count { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.s-myths .my-bar__mascot { display: grid; place-items: center; width: 46px; height: 46px; }
+.s-myths .my-bar__label { font-size: 14px; color: var(--text-3); letter-spacing: 0.08em; }
+.s-myths .my-bar__num { font-family: var(--font-latin); font-style: italic; font-size: 30px; line-height: 1; color: var(--text-3); }
+.s-myths .my-n { display: inline-block; font-weight: 400; color: var(--text); min-width: 0.6em; text-align: center; }
+.s-myths .my-pips { display: inline-flex; gap: 6px; margin-left: 4px; }
+.s-myths .my-pips i { width: 18px; height: 6px; border-radius: 6px; background: var(--line-2); transition: background 0.5s var(--ease-out), box-shadow 0.5s; }
+.s-myths .my-pips i.is-on { background: var(--amber); box-shadow: 0 0 10px rgba(255, 179, 92, 0.7); }
+.s-myths .my-bar__tools { display: flex; gap: 8px; }
+.s-myths .my-bar__tools [hidden] { display: none; }
+
+/* ---------------- 卡片网格 ---------------- */
+.s-myths .my-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.s-myths .my-cell { position: relative; display: grid; min-height: 240px; }
+.s-myths .my-cell.is-flying { z-index: 5; }
+.s-myths .my-cell > .my-truth, .s-myths .my-cell > .my-card { grid-area: 1 / 1; }
+
+/* 真相（压在卡片下面） */
+.s-myths .my-truth {
+  display: flex; flex-direction: column; gap: 10px; padding: 24px;
+  border-radius: var(--r-lg); border: 1px dashed rgba(255, 209, 102, 0.35);
+  background: linear-gradient(160deg, rgba(255, 209, 102, 0.07), rgba(10, 12, 18, 0.6) 70%);
+  opacity: 0;
+}
+.s-myths .is-broken .my-truth { opacity: 1; }
+.s-myths .my-truth__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.s-myths .my-truth__k { font-family: var(--font-display); font-weight: 900; font-size: 22px; color: var(--warn); letter-spacing: 0.04em; }
+.s-myths .my-truth__t { margin: 0; font-size: 17px; line-height: 1.75; color: var(--text); font-weight: 600; }
+.s-myths .my-truth__more { margin: 0; font-size: 14.5px; line-height: 1.7; color: var(--text-2); padding-top: 10px; border-top: 1px solid var(--line); }
+
+/* 流言卡（玻璃板） */
+.s-myths .my-card {
+  position: relative; display: flex; flex-direction: column; align-items: flex-start; text-align: left;
+  width: 100%; height: 100%; padding: 22px 24px 20px; border-radius: var(--r-lg); overflow: hidden;
+  background:
+    linear-gradient(115deg, transparent 0 38%, rgba(255, 255, 255, 0.07) 42%, transparent 50%),
+    linear-gradient(160deg, #262c40 0%, #161a26 55%, #10131c 100%);
+  border: 1px solid rgba(244, 239, 230, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 24px 50px -30px rgba(0, 0, 0, 0.9);
+  color: var(--text);
+  transition: transform var(--t-mid) var(--ease-out), border-color var(--t-mid), box-shadow var(--t-mid);
+}
+.s-myths button.my-card:hover { transform: translateY(-5px) rotate(-0.6deg); border-color: rgba(255, 179, 92, 0.5); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 30px 60px -30px rgba(255, 122, 82, 0.45); }
+.s-myths button.my-card:active { transform: scale(0.98); }
+.s-myths .my-card--clone { position: absolute; inset: 0; width: 100%; height: 100%; box-shadow: none; transition: none; }
+.s-myths .my-card__top { display: flex; width: 100%; justify-content: space-between; align-items: center; gap: 10px; }
+.s-myths .my-card__n { font-family: var(--font-latin); font-style: italic; font-size: 17px; color: var(--amber); letter-spacing: 0.02em; }
+.s-myths .my-card__hint { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 700; color: var(--text-3); transition: color var(--t-fast); }
+.s-myths button.my-card:hover .my-card__hint { color: var(--amber-2); }
+.s-myths .my-card__q { font-family: var(--font-latin); font-size: 88px; line-height: 0.7; height: 40px; margin-top: 18px; color: rgba(255, 179, 92, 0.35); }
+.s-myths .my-card__t { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2vw, 28px); line-height: 1.35; margin-top: 4px; text-wrap: balance; }
+.s-myths .my-card__src { margin-top: auto; padding-top: 16px; font-size: 12.5px; color: var(--text-3); letter-spacing: 0.1em; }
+.s-myths .is-broken > .my-card { pointer-events: none; }
+
+/* 特效层 */
+.s-myths .my-fx { position: absolute; inset: 0; pointer-events: none; perspective: 900px; }
+.s-myths .my-shard { position: absolute; will-change: transform, opacity; backface-visibility: visible; }
+.s-myths .my-shard .my-card { border-color: rgba(255, 236, 210, 0.4); }
+.s-myths .my-cracks { position: absolute; overflow: visible; }
+.s-myths .my-cracks path { fill: none; stroke: rgba(255, 244, 228, 0.95); stroke-width: 1.4; stroke-dasharray: 1; stroke-dashoffset: 1; filter: drop-shadow(0 0 4px rgba(255, 200, 140, 0.9)); }
+.s-myths .my-cracks circle { fill: #fff; filter: drop-shadow(0 0 6px #ffd08a); }
+.s-myths .my-flash {
+  position: absolute; width: 90px; height: 90px; margin: -45px 0 0 -45px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 240, 210, 0.95), rgba(255, 179, 92, 0.4) 45%, transparent);
+  mix-blend-mode: screen;
+}
+
+/* ---------------- 全部粉碎后的总结 ---------------- */
+.s-myths .my-summary {
+  display: grid; grid-template-columns: auto 1fr; gap: 22px; align-items: center;
+  margin-top: 24px; padding: clamp(22px, 3vw, 36px); border-radius: var(--r-xl);
+  background: linear-gradient(140deg, rgba(111, 240, 184, 0.1), rgba(14, 17, 25, 0.8) 60%);
+  border: 1px solid rgba(111, 240, 184, 0.3);
+}
+.s-myths .my-summary[hidden] { display: none; }
+.s-myths .my-summary__k { margin: 0 0 4px; font-size: 13px; letter-spacing: 0.14em; color: var(--safe); font-weight: 800; }
+.s-myths .my-summary__t { margin: 0 0 8px; font-family: var(--font-display); font-weight: 800; font-size: clamp(20px, 2.2vw, 28px); line-height: 1.5; }
+.s-myths .my-summary .muted { margin: 0; }
+
+/* ---------------- 可验证的习惯 ---------------- */
+.s-myths .my-habits { margin-top: clamp(72px, 10vw, 140px); }
+.s-myths .my-habits .h3 { font-size: clamp(28px, 3.4vw, 48px); line-height: 1.25; margin-bottom: 30px; }
+.s-myths .my-habits__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.s-myths .my-habit {
+  padding: 26px; border-radius: var(--r-lg);
+  background: linear-gradient(180deg, rgba(111, 240, 184, 0.06), rgba(14, 17, 25, 0.6));
+  border: 1px solid rgba(111, 240, 184, 0.2);
+}
+.s-myths .my-habit__ico { display: grid; place-items: center; width: 50px; height: 50px; border-radius: 15px; margin-bottom: 18px; color: var(--safe); background: var(--safe-dim); border: 1px solid rgba(111, 240, 184, 0.3); box-shadow: var(--glow-safe); }
+.s-myths .my-habit .h4 { margin-bottom: 6px; }
+.s-myths .my-habit .muted { margin: 0; font-size: 15.5px; line-height: 1.75; }
+.s-myths .my-habits__note { margin-top: 16px; }
+
+@media (max-width: 960px) {
+  .s-myths .my-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .s-myths .my-habits__list { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .s-myths .my-bar { border-radius: var(--r-lg); }
+  .s-myths .my-grid { grid-template-columns: 1fr; }
+  .s-myths .my-cell { min-height: 200px; }
+  .s-myths .my-card__q { font-size: 70px; height: 30px; margin-top: 12px; }
+  .s-myths .my-summary { grid-template-columns: 1fr; justify-items: start; }
+}

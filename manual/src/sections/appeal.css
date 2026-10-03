@@ -1,0 +1,155 @@
+/* 万一被限制：信件质感，温和、冷静 */
+.s-appeal { --paper: #f3ecdf; --paper-2: #e9dfcd; --ink: #2a2118; --ink-2: #6b5d4c; --ink-3: #9a8b77; }
+
+.s-appeal .ap-metaphor { margin-top: 28px; max-width: 46em; }
+
+.s-appeal .ap-grid {
+  display: grid; grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: clamp(32px, 5vw, 80px); align-items: start;
+}
+
+/* —— 四步：一条安静的竖线 —— */
+.s-appeal .ap-steps { position: relative; display: grid; gap: 6px; }
+.s-appeal .ap-step { display: grid; grid-template-columns: 56px 1fr; gap: 18px; position: relative; }
+.s-appeal .ap-step__rail { position: relative; display: flex; justify-content: center; }
+.s-appeal .ap-step__rail::after {
+  content: ''; position: absolute; top: 58px; bottom: -6px; left: 50%; width: 1px;
+  background: linear-gradient(var(--line-3), transparent);
+}
+.s-appeal .ap-step:last-child .ap-step__rail::after { display: none; }
+.s-appeal .ap-step__icon {
+  width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid rgba(255, 179, 92, 0.3); background: radial-gradient(circle at 35% 30%, rgba(255, 179, 92, 0.16), rgba(14, 17, 25, 0.9) 70%);
+  box-shadow: 0 0 0 6px rgba(7, 8, 12, 0.6);
+}
+.s-appeal .ap-step__icon svg { width: 26px; height: 26px; fill: none; stroke: var(--amber-2); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.s-appeal .ap-step__icon .fill-bg { fill: #141824; }
+.s-appeal .ap-step__body { padding: 4px 0 30px; }
+.s-appeal .ap-step__n { font-family: var(--font-latin); font-style: italic; font-size: 20px; line-height: 1; color: var(--amber); margin-bottom: 6px; }
+.s-appeal .ap-step__title { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-h4); line-height: 1.4; margin-bottom: 6px; }
+.s-appeal .ap-step__text { color: var(--text-2); margin-bottom: 6px; font-size: 16px; line-height: 1.8; }
+.s-appeal .ap-step__hint { color: var(--text-3); font-size: var(--fs-small); margin: 0; }
+.s-appeal .ap-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 10px; }
+.s-appeal .ap-chip {
+  padding: 3px 12px; border-radius: var(--r-pill); font-size: 13px; font-weight: 600;
+  border: 1px dashed var(--line-3); color: var(--text-2);
+}
+.s-appeal .ap-chip.is-key { border-style: solid; border-color: rgba(255, 179, 92, 0.5); color: var(--amber-2); background: rgba(255, 179, 92, 0.08); }
+
+/* —— 书桌：信封 + 信纸 —— */
+.s-appeal .ap-desk { position: relative; padding-top: 34px; }
+.s-appeal .ap-desk__mascot { position: absolute; left: -22px; top: -14px; z-index: 3; width: 96px; height: 96px; }
+.s-appeal .ap-face { position: absolute; inset: 0; transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out); }
+.s-appeal .ap-face--calm { opacity: 0; transform: scale(0.8); }
+.s-appeal .ap-desk.is-calm .ap-face--worried { opacity: 0; transform: scale(0.8); }
+.s-appeal .ap-desk.is-calm .ap-face--calm { opacity: 1; transform: none; }
+
+.s-appeal .ap-letterbox { position: relative; }
+.s-appeal .ap-envelope {
+  position: absolute; left: 4%; right: 4%; bottom: -44px; height: 170px; z-index: 0;
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.55));
+}
+.s-appeal .ap-envelope svg { width: 100%; height: 100%; }
+.s-appeal .ap-envelope__back { fill: #2a2330; stroke: rgba(255, 208, 138, 0.18); stroke-width: 1; }
+.s-appeal .ap-envelope__fold { fill: none; stroke: rgba(255, 208, 138, 0.22); stroke-width: 1.2; }
+
+.s-appeal .ap-letter {
+  position: relative; z-index: 1;
+  padding: clamp(26px, 3.4vw, 46px) clamp(22px, 3.4vw, 48px) clamp(22px, 3vw, 36px);
+  border-radius: 6px 6px 18px 18px;
+  color: var(--ink);
+  background:
+    repeating-linear-gradient(180deg, transparent 0 35px, rgba(120, 96, 60, 0.12) 35px 36px),
+    radial-gradient(120% 80% at 20% 0%, #fbf6ec, var(--paper) 55%, var(--paper-2));
+  background-position: 0 14px, 0 0;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 40px 80px -30px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 208, 138, 0.18), 0 0 90px -30px rgba(255, 179, 92, 0.35);
+}
+.s-appeal .ap-letter::before {
+  /* 左侧装订的红线，像信笺的页边 */
+  content: ''; position: absolute; left: clamp(12px, 1.6vw, 22px); top: 0; bottom: 0; width: 1px; background: rgba(214, 90, 70, 0.28);
+}
+.s-appeal .ap-letter__top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px 20px; margin-bottom: 22px; padding-right: 74px; }
+.s-appeal .ap-letter__label { font-size: 12px; letter-spacing: 0.14em; color: var(--ink-3); font-weight: 700; }
+.s-appeal .ap-letter__title { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2.2vw, 30px); line-height: 1.3; color: var(--ink); }
+.s-appeal .ap-seg { background: rgba(42, 33, 24, 0.06); border-color: rgba(42, 33, 24, 0.12); }
+.s-appeal .ap-seg button { color: var(--ink-2); min-height: 34px; padding: 0 14px; font-size: 13px; }
+.s-appeal .ap-seg button:hover { color: var(--ink); }
+.s-appeal .ap-seg button[aria-pressed='true'] { background: var(--ink); color: var(--paper); }
+
+.s-appeal .ap-lines { display: grid; gap: 14px; counter-reset: ln; }
+.s-appeal .ap-line { display: grid; gap: 2px; counter-increment: ln; position: relative; padding-left: 26px; }
+.s-appeal .ap-line::before {
+  content: counter(ln); position: absolute; left: 0; top: 0.3em;
+  font-family: var(--font-latin); font-style: italic; font-size: 15px; color: var(--ink-3);
+}
+.s-appeal .ap-line__en { font-family: var(--font-latin); font-size: clamp(19px, 1.7vw, 23px); line-height: 1.45; color: var(--ink); overflow-wrap: anywhere; }
+.s-appeal .ap-line__zh {
+  font-size: 14.5px; line-height: 1.7; color: var(--ink-2);
+  display: block; max-height: 6em; overflow: hidden; transition: max-height 0.5s var(--ease-out), opacity 0.4s;
+}
+.s-appeal .ap-letter.is-en .ap-line__zh { opacity: 0; max-height: 0; overflow: hidden; }
+.s-appeal .ap-letter.is-en .ap-lines { gap: 8px; }
+.s-appeal .ap-slot {
+  font-family: var(--font-mono); font-size: 0.72em; letter-spacing: -0.01em;
+  padding: 0.05em 0.35em; border-radius: 4px; white-space: normal;
+  background: linear-gradient(transparent 8%, rgba(255, 170, 70, 0.42) 8% 92%, transparent 92%);
+  color: #6a3508;
+}
+.s-appeal .ap-slot--zh { font-family: inherit; font-size: 1em; padding: 0 0.15em; background: rgba(255, 170, 70, 0.22); }
+
+.s-appeal .ap-letter__foot {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 20px;
+  margin-top: 26px; padding-top: 18px; border-top: 1px dashed rgba(42, 33, 24, 0.22);
+}
+.s-appeal .ap-letter__note { margin: 0; font-size: 13.5px; line-height: 1.7; color: var(--ink-2); flex: 1 1 18em; text-wrap: pretty; }
+
+/* 邮戳 */
+.s-appeal .ap-postmark { position: absolute; right: -14px; top: -30px; width: 108px; height: 108px; pointer-events: none; }
+.s-appeal .ap-postmark svg { width: 100%; height: 100%; overflow: visible; transform: rotate(0deg); }
+.s-appeal .ap-postmark circle { fill: rgba(214, 90, 70, 0.04); stroke: #c8563f; stroke-width: 2.2; }
+.s-appeal .ap-postmark circle + circle { fill: none; stroke-width: 1.2; stroke-dasharray: 3 3; }
+.s-appeal .ap-postmark text { fill: #c8563f; font-family: var(--font-latin); font-size: 10px; }
+.s-appeal .ap-postmark .ap-postmark__big { font-family: var(--font-display); font-weight: 900; font-size: 17px; letter-spacing: 0.08em; }
+.s-appeal .ap-postmark { mix-blend-mode: multiply; opacity: 0.9; }
+html.no-motion .s-appeal .ap-postmark { transform: rotate(-12deg); }
+
+/* —— 底部：开场白 + 官方入口 —— */
+.s-appeal .ap-bottom { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: 24px; margin-top: clamp(64px, 8vw, 110px); }
+.s-appeal .ap-intro { display: grid; gap: 18px; align-content: start; }
+.s-appeal .ap-intro__head .tag { margin-bottom: 12px; }
+.s-appeal .ap-intro__head .h4 { margin-bottom: 4px; }
+.s-appeal .ap-intro__head p { margin: 0; }
+.s-appeal .ap-intro__paper {
+  margin: 0; padding: 18px 22px; border-radius: var(--r-sm);
+  border-left: 2px solid var(--amber); background: rgba(255, 179, 92, 0.05);
+  font-family: var(--font-display); font-weight: 600; font-size: 17px; line-height: 1.9; color: var(--text);
+}
+.s-appeal .ap-intro__paper p { margin: 0; }
+.s-appeal .ap-intro .ap-copy { justify-self: start; }
+
+.s-appeal .ap-official { display: grid; align-content: start; gap: 6px; min-height: 100%; overflow: hidden; }
+.s-appeal .ap-official__kicker { font-size: 12px; letter-spacing: 0.14em; font-weight: 800; color: var(--amber); }
+.s-appeal .ap-official__title { font-family: var(--font-display); font-weight: 900; font-size: var(--fs-h3); line-height: 1.3; padding-right: 40px; }
+.s-appeal .ap-official__url { font-family: var(--font-mono); font-size: 13px; color: var(--text-3); }
+.s-appeal .ap-official__arrow {
+  position: absolute; right: 24px; top: 20px; font-family: var(--font-latin); font-size: 40px; line-height: 1; color: var(--amber);
+  transition: transform var(--t-mid) var(--ease-out);
+}
+.s-appeal .ap-official:hover .ap-official__arrow { transform: translate(4px, -4px); }
+.s-appeal .ap-official__foot { margin-top: auto; padding-top: 22px; font-size: 13.5px; line-height: 1.7; color: var(--text-2); }
+
+@media (max-width: 960px) {
+  .s-appeal .ap-grid { grid-template-columns: 1fr; }
+  .s-appeal .ap-bottom { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .s-appeal .ap-step { grid-template-columns: 44px 1fr; gap: 14px; }
+  .s-appeal .ap-step__icon { width: 44px; height: 44px; }
+  .s-appeal .ap-step__icon svg { width: 22px; height: 22px; }
+  .s-appeal .ap-step__rail::after { top: 50px; }
+  .s-appeal .ap-desk__mascot { left: -4px; top: -12px; transform: scale(0.8); transform-origin: 0 0; }
+  .s-appeal .ap-postmark { width: 80px; height: 80px; right: -6px; top: -22px; }
+  .s-appeal .ap-letter__top { padding-right: 52px; }
+  .s-appeal .ap-line { padding-left: 20px; }
+  .s-appeal .ap-letter__foot .ap-copy { width: 100%; }
+}

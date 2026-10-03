@@ -1,0 +1,117 @@
+/* ============================================================
+   开场闸门 · .og（挂在 #gate-root 下，不属于任何 section）
+   注：闸门不在 .s-opening 作用域内，统一用 .og 前缀避免污染
+   ============================================================ */
+.og {
+  position: fixed; inset: 0; z-index: var(--z-gate);
+  --hx: 50vw; --hy: 50vh; --hr: 0px;
+}
+.og.is-leaving { pointer-events: none; }
+
+/* 遮罩层：背景、光粒、文案。点击后按 --hr 在光门位置开洞 */
+.og__veil {
+  position: absolute; inset: 0; overflow: hidden;
+  background:
+    radial-gradient(60vmax 50vmax at 50% 42%, rgba(255, 150, 70, 0.14), transparent 62%),
+    radial-gradient(70vmax 60vmax at 88% 110%, rgba(80, 90, 210, 0.16), transparent 60%),
+    radial-gradient(50vmax 40vmax at 6% -6%, rgba(255, 93, 115, 0.08), transparent 60%),
+    var(--bg);
+  -webkit-mask-image: radial-gradient(circle at var(--hx) var(--hy), transparent var(--hr), #000 calc(var(--hr) + 1.5px));
+  mask-image: radial-gradient(circle at var(--hx) var(--hy), transparent var(--hr), #000 calc(var(--hr) + 1.5px));
+}
+.og__motes { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+.og__stage {
+  position: relative; z-index: 1; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 24px var(--gutter) 40px; text-align: center;
+}
+
+/* 小请求的舞台：轨道环 + 声波 + 占位槽（真正的小请求在飞行层） */
+.og__portal { position: relative; width: 300px; height: 300px; margin-bottom: 8px; display: grid; place-items: center; flex: none; }
+.og__orbits { position: absolute; inset: -40px; width: calc(100% + 80px); height: calc(100% + 80px); overflow: visible; }
+.og__orbit { fill: none; stroke-linecap: round; }
+.og__orbit--a { stroke: rgba(255, 179, 92, 0.34); stroke-width: 1.2; stroke-dasharray: 2 7; animation: og-spin 38s linear infinite; transform-origin: 0 0; }
+.og__orbit--b { stroke: rgba(244, 239, 230, 0.12); stroke-width: 1; stroke-dasharray: 60 14 4 14; animation: og-spin 64s linear infinite reverse; transform-origin: 0 0; }
+.og__sat { transform-origin: 0 0; }
+.og__sat circle { fill: #ffd08a; filter: drop-shadow(0 0 6px rgba(255, 179, 92, 0.9)); }
+.og__sat--a { animation: og-spin 9s linear infinite; }
+.og__sat--b { animation: og-spin 14s linear infinite reverse; }
+.og__sat--b circle { fill: #f4efe6; opacity: 0.7; }
+@keyframes og-spin { to { transform: rotate(360deg); } }
+
+.og__slot { width: 184px; height: 184px; }
+
+/* 声波：主按钮被悬停或聚焦时，从小请求身上一圈圈散开 */
+.og__wave {
+  position: absolute; left: 50%; top: 50%; width: 120px; height: 120px; margin: -60px 0 0 -60px;
+  border-radius: 50%; border: 1.5px solid rgba(255, 192, 112, 0.55);
+  opacity: 0; transform: scale(0.8); pointer-events: none;
+}
+.og.is-sound .og__wave { animation: og-wave 2.4s var(--ease-out) infinite; }
+.og.is-sound .og__wave:nth-child(3) { animation-delay: 0.8s; }
+.og.is-sound .og__wave:nth-child(4) { animation-delay: 1.6s; }
+.og.is-leaving .og__wave { animation: none; opacity: 0; }
+@keyframes og-wave { 0% { opacity: 0.8; transform: scale(0.85); } 100% { opacity: 0; transform: scale(2.3); } }
+
+.og__kicker {
+  display: inline-flex; align-items: center; gap: 12px; margin: 0 0 18px;
+  font-size: var(--fs-small); letter-spacing: 0.12em; color: var(--text-3);
+}
+.og__kicker .latin { font-style: italic; font-size: 20px; letter-spacing: 0.02em; color: var(--amber); }
+.og__bar { width: 28px; height: 1px; background: var(--line-3); }
+
+.og__title {
+  font-family: var(--font-display); font-weight: 900;
+  font-size: clamp(30px, 4.4vw, 60px); line-height: 1.22; letter-spacing: -0.01em;
+  margin: 0; text-wrap: balance;
+}
+.og__line { display: block; overflow: hidden; padding: 0.04em 0 0.1em; }
+.og__line > span { display: inline-block; }
+
+.og__sub { margin: 16px 0 0; font-size: var(--fs-lead); color: var(--text-2); }
+
+.og__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 36px; }
+.og__btn { min-width: 188px; }
+.og__btn svg { flex: none; }
+
+.og__hint { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; margin: 26px 0 0; font-size: 13px; color: var(--text-3); }
+.og__hint kbd {
+  font-family: var(--font-sans); font-size: 12px; font-weight: 700; color: var(--text-2);
+  padding: 2px 8px; border-radius: 6px; border: 1px solid var(--line-2); border-bottom-width: 2px;
+  background: rgba(244, 239, 230, 0.04);
+}
+.og__dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-4); margin: 0 6px; }
+
+/* 飞行层：不受遮罩影响，放小请求、光尾和门口的光环 */
+.og__fly { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.og__hero { position: absolute; left: 50%; top: 40%; width: 184px; height: 184px; will-change: transform; }
+.og__face { position: absolute; inset: 0; transition: opacity var(--t-mid) var(--ease-out); }
+.og__face .mascot { width: 100%; height: 100%; filter: drop-shadow(0 0 30px rgba(255, 150, 70, 0.45)); }
+.og__face--happy { opacity: 0; }
+.og.is-sound .og__face--happy { opacity: 1; }
+.og.is-sound .og__face--idle { opacity: 0; }
+
+.og__trail {
+  position: absolute; width: 70px; height: 70px; border-radius: 50%; opacity: 0;
+  background: radial-gradient(circle, rgba(255, 241, 214, 0.9), rgba(255, 170, 90, 0.45) 35%, rgba(255, 122, 82, 0) 70%);
+  filter: blur(2px);
+}
+.og__ring {
+  position: absolute; width: 0; height: 0; border-radius: 50%; opacity: 0;
+  border: 1.5px solid rgba(255, 208, 138, 0.9);
+  box-shadow: 0 0 24px rgba(255, 170, 90, 0.6), 0 0 80px rgba(255, 122, 82, 0.35), inset 0 0 30px rgba(255, 170, 90, 0.35);
+}
+
+@media (max-width: 640px) {
+  .og__portal { width: 220px; height: 220px; margin-bottom: 4px; }
+  .og__orbits { inset: -30px; width: calc(100% + 60px); height: calc(100% + 60px); }
+  .og__kicker { gap: 8px; font-size: 12px; letter-spacing: 0.08em; }
+  .og__kicker .latin { font-size: 17px; }
+  .og__actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 320px; gap: 12px; margin-top: 30px; }
+  .og__sub { font-size: 16px; }
+}
+@media (max-height: 640px) and (min-width: 641px) {
+  .og__portal { width: 220px; height: 220px; }
+  .og__actions { margin-top: 24px; }
+}

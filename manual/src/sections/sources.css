@@ -1,0 +1,161 @@
+/* 来源与边界 + 整站收尾 */
+.s-sources { padding-bottom: 0; overflow: hidden; }
+
+/* —— 版权页式的整理说明 —— */
+.s-sources .so-colophon {
+  display: grid; grid-template-columns: 180px 1fr; gap: 24px 48px;
+  padding: clamp(26px, 3vw, 42px) 0; border-top: 1px solid var(--line-3); border-bottom: 1px solid var(--line);
+}
+.s-sources .so-colophon__label { font-size: 13px; letter-spacing: 0.18em; color: var(--text-3); font-weight: 700; padding-top: 6px; }
+.s-sources .so-colophon__main { font-family: var(--font-display); font-weight: 800; font-size: clamp(20px, 2vw, 28px); line-height: 1.5; color: var(--text); margin-bottom: 22px; max-width: 30em; }
+.s-sources .so-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 28px; margin: 0 0 22px; }
+.s-sources .so-meta div { border-left: 1px solid var(--line-2); padding-left: 14px; }
+.s-sources .so-meta dt { font-size: 12px; letter-spacing: 0.12em; color: var(--text-3); margin-bottom: 4px; }
+.s-sources .so-meta dd { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text-2); }
+.s-sources .so-meta div:first-child dd { font-family: var(--font-latin); font-size: 24px; line-height: 1.2; color: var(--amber-2); }
+.s-sources .so-colophon__warn { color: var(--text-2); margin-bottom: 14px; }
+.s-sources .so-colophon__stamp { margin: 0; }
+.s-sources .so-colophon__stamp span {
+  display: inline-block; padding: 6px 16px; border-radius: 6px;
+  border: 1.6px solid rgba(255, 179, 92, 0.6); color: var(--amber-2);
+  font-family: var(--font-display); font-weight: 900; font-size: 17px; letter-spacing: 0.06em;
+  transform: rotate(-1.5deg);
+}
+
+/* —— 资料链接：编辑感长列表 —— */
+.s-sources .so-links { margin-top: clamp(64px, 8vw, 110px); }
+.s-sources .so-links__head, .s-sources .so-pledge__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin-bottom: 18px; }
+.s-sources .so-links__head p, .s-sources .so-pledge__head p { margin: 0; }
+.s-sources .so-list { border-top: 1px solid var(--line-2); }
+.s-sources .so-list li { border-bottom: 1px solid var(--line-2); }
+.s-sources .so-link {
+  position: relative; display: grid; grid-template-columns: 56px minmax(0, 1fr) auto 64px 40px; align-items: center; gap: 20px;
+  padding: 22px 12px; isolation: isolate; overflow: hidden;
+  transition: padding var(--t-mid) var(--ease-out), color var(--t-fast);
+}
+.s-sources .so-link::before {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(90deg, rgba(255, 179, 92, 0.12), rgba(255, 93, 115, 0.04) 60%, transparent);
+  transform: scaleX(0); transform-origin: 0 50%; transition: transform 0.6s var(--ease-out);
+}
+.s-sources .so-link:hover::before, .s-sources .so-link:focus-visible::before { transform: scaleX(1); }
+.s-sources .so-link:hover { padding-left: 22px; }
+.s-sources .so-link__n { font-family: var(--font-latin); font-style: italic; font-size: 26px; color: var(--text-4); transition: color var(--t-fast); }
+.s-sources .so-link:hover .so-link__n { color: var(--amber); }
+.s-sources .so-link__main { display: grid; gap: 2px; min-width: 0; }
+.s-sources .so-link__t { font-family: var(--font-latin); font-size: clamp(21px, 2vw, 30px); line-height: 1.25; color: var(--text); overflow-wrap: anywhere; }
+.s-sources .so-link__d { font-size: 14.5px; color: var(--text-2); }
+.s-sources .so-link__host { font-family: var(--font-mono); font-size: 12.5px; color: var(--text-3); white-space: nowrap; }
+.s-sources .so-link__tag { justify-self: start; font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: var(--r-pill); border: 1px solid var(--line-2); color: var(--text-3); }
+.s-sources .so-link__arrow { font-family: var(--font-latin); font-size: 30px; line-height: 1; color: var(--amber); justify-self: end; transition: transform var(--t-mid) var(--ease-out); }
+.s-sources .so-link:hover .so-link__arrow { transform: translate(4px, -4px); }
+
+/* —— 本页承诺 —— */
+.s-sources .so-pledge { margin-top: clamp(64px, 8vw, 110px); }
+.s-sources .so-pledge__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.s-sources .so-pledge__item {
+  display: grid; gap: 6px; align-content: start; padding: 22px; border-radius: var(--r-lg);
+  border: 1px solid var(--line); background: rgba(244, 239, 230, 0.025);
+}
+.s-sources .so-pledge__icon { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; margin-bottom: 8px; background: var(--safe-dim); border: 1px solid rgba(111, 240, 184, 0.25); }
+.s-sources .so-pledge__icon svg { width: 24px; height: 24px; fill: none; stroke: var(--safe); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.s-sources .so-pledge__icon .cut { stroke: var(--safe); opacity: 0.9; }
+.s-sources .so-pledge__item b { font-size: 16.5px; }
+.s-sources .so-pledge__item span:last-child { font-size: 14px; line-height: 1.7; color: var(--text-2); }
+
+/* ============================================================
+   收尾：夜色小城 + 金句
+   ============================================================ */
+.s-sources .so-finale {
+  position: relative; margin-top: clamp(100px, 14vw, 200px);
+  min-height: max(760px, 100vh); display: flex; flex-direction: column; justify-content: flex-end;
+}
+.s-sources .so-sky {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(60% 50% at 50% 92%, rgba(255, 170, 90, 0.26), transparent 70%),
+    radial-gradient(40% 30% at 50% 100%, rgba(255, 93, 115, 0.2), transparent 70%),
+    linear-gradient(180deg, transparent, rgba(10, 12, 22, 0.6) 40%, rgba(12, 10, 20, 0.9));
+}
+.s-sources .so-finale__inner { position: relative; z-index: 2; text-align: center; padding-bottom: clamp(30px, 4vw, 60px); }
+.s-sources .so-finale__kicker { font-size: 14px; letter-spacing: 0.24em; color: var(--text-3); margin-bottom: 26px; }
+
+.s-sources .so-motto { margin: 0; font-family: var(--font-display); font-weight: 900; font-size: clamp(34px, 8vw, 128px); line-height: 1.12; letter-spacing: -0.02em; }
+.s-sources .so-motto__line { display: block; padding: 0.04em 0; }
+.s-sources .so-motto .w { display: inline-block; }
+.s-sources .so-ok { color: var(--text); transition: color 0.8s var(--ease-out), text-shadow 0.8s var(--ease-out); }
+.s-sources .so-ok.is-lit { color: var(--safe); text-shadow: 0 0 40px rgba(111, 240, 184, 0.55), 0 0 120px rgba(111, 240, 184, 0.25); }
+.s-sources .so-no { position: relative; color: var(--text); transition: color 0.3s; }
+.s-sources .so-no.is-stamped { color: var(--danger); text-shadow: 0 0 40px rgba(255, 77, 97, 0.45); }
+.s-sources .so-no__stamp {
+  position: absolute; left: -0.14em; right: 0.12em; top: 0.08em; bottom: 0.04em;
+  border: 0.055em solid var(--danger); border-radius: 0.12em;
+  transform: rotate(-7deg) scale(1.6); opacity: 0; pointer-events: none;
+  box-shadow: 0 0 30px rgba(255, 77, 97, 0.35), inset 0 0 20px rgba(255, 77, 97, 0.2);
+  transition: transform 0.45s var(--ease-spring), opacity 0.2s;
+}
+.s-sources .so-no.is-stamped .so-no__stamp { opacity: 1; transform: rotate(-7deg) scale(1); }
+
+.s-sources .so-finale__sub { margin: 28px auto 0; font-size: var(--fs-lead); color: var(--text-2); }
+
+.s-sources .so-hero { position: relative; width: 112px; height: 112px; margin: 34px auto 26px; }
+.s-sources .so-hero__m { display: block; }
+.s-sources .so-finale.is-live .so-hero__m { animation: so-sway 3.2s ease-in-out infinite; transform-origin: 50% 90%; }
+@keyframes so-sway { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+.s-sources .so-hero__wave { position: absolute; right: -26px; top: 18px; width: 30px; height: 30px; }
+.s-sources .so-hero__wave i { position: absolute; left: 0; top: 50%; width: 10px; height: 2px; border-radius: 2px; background: var(--amber-2); transform-origin: -6px 50%; opacity: 0; }
+.s-sources .so-hero__wave i:nth-child(1) { transform: rotate(-35deg) translateX(6px); }
+.s-sources .so-hero__wave i:nth-child(2) { transform: rotate(0) translateX(8px); }
+.s-sources .so-hero__wave i:nth-child(3) { transform: rotate(35deg) translateX(6px); }
+.s-sources .so-finale.is-done.is-live .so-hero__wave i { animation: so-wave 1.6s ease-in-out infinite; }
+.s-sources .so-finale.is-done .so-hero__wave i { opacity: 0.8; }
+.s-sources .so-hero__wave i:nth-child(2) { animation-delay: 0.12s !important; }
+.s-sources .so-hero__wave i:nth-child(3) { animation-delay: 0.24s !important; }
+@keyframes so-wave { 0%, 100% { opacity: 0.1; } 40% { opacity: 1; } }
+
+/* 夜景 */
+.s-sources .so-town { position: relative; z-index: 1; width: 100%; height: clamp(150px, 20vw, 260px); margin-top: -20px; }
+.s-sources .so-house { fill: #0d0f18; stroke: rgba(255, 208, 138, 0.12); stroke-width: 1; }
+.s-sources .so-roof { fill: #0d0f18; stroke: rgba(255, 208, 138, 0.16); stroke-width: 1; stroke-linejoin: round; }
+.s-sources .so-win { fill: #ffc070; opacity: 0.2; }
+.s-sources .so-finale.is-done .so-win { opacity: 0.85; filter: drop-shadow(0 0 4px rgba(255, 179, 92, 0.9)); transition: opacity 1.2s var(--ease-out) var(--d); }
+.s-sources .so-finale.is-done.is-live .so-win:nth-child(3n) { animation: so-flicker 6s ease-in-out infinite; animation-delay: var(--d); }
+@keyframes so-flicker { 0%, 100% { opacity: 0.85; } 50% { opacity: 0.45; } }
+.s-sources .so-star { fill: #f4efe6; opacity: 0.5; }
+.s-sources .so-finale.is-live .so-star { animation: so-twinkle 4s ease-in-out infinite; animation-delay: var(--d); }
+@keyframes so-twinkle { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.8; } }
+.s-sources .so-gate { fill: rgba(255, 179, 92, 0.08); stroke: var(--amber); stroke-width: 2; filter: drop-shadow(0 0 10px rgba(255, 179, 92, 0.9)); }
+.s-sources .so-ground { stroke: rgba(255, 208, 138, 0.28); stroke-width: 1; }
+.s-sources .so-road { stroke: url(#so-path); stroke-width: 2; stroke-dasharray: 2 10; stroke-linecap: round; }
+.s-sources .so-finale.is-live .so-road { animation: so-road 1.4s linear infinite; }
+@keyframes so-road { to { stroke-dashoffset: -12; } }
+
+.s-sources .so-foot { position: relative; z-index: 2; text-align: center; padding: 22px var(--gutter) 40px; background: #06070b; border-top: 1px solid rgba(255, 208, 138, 0.14); }
+.s-sources .so-foot__line { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 18px; letter-spacing: 0.08em; color: var(--text); }
+.s-sources .so-foot__small { margin: 6px 0 0; font-size: 12.5px; color: var(--text-3); }
+
+html.no-motion .s-sources .so-ok { color: var(--safe); }
+html.no-motion .s-sources .so-no { color: var(--danger); }
+html.no-motion .s-sources .so-no__stamp { opacity: 1; transform: rotate(-7deg); }
+
+@media (max-width: 960px) {
+  .s-sources .so-pledge__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .s-sources .so-link { grid-template-columns: 44px minmax(0, 1fr) 30px; gap: 4px 14px; }
+  .s-sources .so-link__host { grid-column: 2; grid-row: 2; }
+  .s-sources .so-link__tag { display: none; }
+  .s-sources .so-link__arrow { grid-column: 3; grid-row: 1 / span 2; }
+  .s-sources .so-link__n { grid-row: 1 / span 2; align-self: start; }
+}
+@media (max-width: 640px) {
+  .s-sources .so-colophon { grid-template-columns: 1fr; gap: 10px; }
+  .s-sources .so-meta { grid-template-columns: 1fr; }
+  .s-sources .so-pledge__grid { grid-template-columns: 1fr; }
+  .s-sources .so-link { padding: 18px 4px; }
+  .s-sources .so-link:hover { padding-left: 10px; }
+  .s-sources .so-link__n { font-size: 20px; }
+  .s-sources .so-finale { min-height: 640px; }
+}
+
+.s-sources .so-curator-link, .s-sources .so-foot__curator a { color: var(--text); border-bottom: 1px solid rgba(255, 179, 92, 0.45); transition: color var(--t-fast), border-color var(--t-fast); }
+.s-sources .so-curator-link:hover, .s-sources .so-foot__curator a:hover { color: var(--amber-2); border-color: var(--amber); }
+.s-sources .so-foot__curator { margin: 10px 0 0; font-size: 15px; font-weight: 700; letter-spacing: 0.04em; color: var(--amber-2); }

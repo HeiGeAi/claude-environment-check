@@ -1,0 +1,355 @@
+/* ============================================================
+   04 · 请求的旅程
+   ============================================================ */
+
+/* ---------- 顶部：场景 + 没有防护开关 ---------- */
+.s-journey .j-top {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 20px;
+  margin-bottom: 18px;
+}
+.s-journey .j-switch {
+  display: inline-flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 18px 0 8px;
+  border-radius: var(--r-pill); border: 1px solid var(--line-2); background: rgba(244, 239, 230, 0.04);
+  font-size: 14px; font-weight: 700; color: var(--text-2);
+  transition: border-color var(--t-mid) var(--ease-out), background var(--t-mid) var(--ease-out), color var(--t-mid);
+}
+.s-journey .j-switch:hover { color: var(--text); border-color: var(--line-3); }
+.s-journey .j-switch__track {
+  position: relative; width: 46px; height: 28px; border-radius: 99px; flex: none;
+  background: rgba(244, 239, 230, 0.12); border: 1px solid var(--line-2);
+  transition: background var(--t-mid) var(--ease-out), border-color var(--t-mid);
+}
+.s-journey .j-switch__track i {
+  position: absolute; left: 3px; top: 3px; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--text); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  transition: transform var(--t-mid) var(--ease-out), background var(--t-mid);
+}
+.s-journey .j-switch[aria-checked='true'] { color: #ff9aa6; border-color: rgba(255, 77, 97, 0.5); background: rgba(255, 77, 97, 0.1); }
+.s-journey .j-switch[aria-checked='true'] .j-switch__track { background: var(--danger); border-color: var(--danger); box-shadow: var(--glow-danger); }
+.s-journey .j-switch[aria-checked='true'] .j-switch__track i { transform: translateX(18px); background: #fff; }
+
+/* ---------- 舞台 ---------- */
+.s-journey .j-stagecard {
+  position: relative; border-radius: var(--r-lg); overflow: hidden;
+  border: 1px solid var(--line-2);
+  background: #070a14;
+  box-shadow: 0 40px 120px -40px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition: border-color 0.6s var(--ease-out), box-shadow 0.6s var(--ease-out);
+}
+.s-journey .j-stagecard::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02), inset 0 -80px 120px -60px rgba(0, 0, 0, 0.6);
+}
+.s-journey .j-stagecard.is-leak { border-color: rgba(255, 77, 97, 0.45); box-shadow: 0 40px 120px -40px rgba(0, 0, 0, 0.9), 0 0 60px -20px rgba(255, 77, 97, 0.45); }
+.s-journey .j-stage { position: relative; }
+.s-journey .j-svg { width: 100%; height: auto; display: block; }
+.s-journey .j-stage.is-paused * { animation-play-state: paused !important; }
+
+.s-journey .j-badges { position: absolute; left: 16px; top: 14px; right: 16px; display: flex; flex-wrap: wrap; gap: 8px; pointer-events: none; }
+.s-journey .j-badge {
+  display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: var(--r-pill);
+  font-size: 12px; font-weight: 700; letter-spacing: 0.04em; color: var(--text-2);
+  background: rgba(7, 8, 12, 0.66); border: 1px solid var(--line-2);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+}
+.s-journey .j-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--info); box-shadow: 0 0 10px var(--info); }
+.s-journey .j-badge--leak { display: none; color: #ff9aa6; border-color: rgba(255, 77, 97, 0.45); }
+.s-journey .j-badge--leak .dot { background: var(--danger); box-shadow: 0 0 10px var(--danger); animation: j-blink 1s steps(2) infinite; }
+.s-journey .j-stagecard.is-leak .j-badge--leak { display: inline-flex; }
+@keyframes j-blink { 50% { opacity: 0.2; } }
+
+/* 结论大字（剧情高潮时出现） */
+.s-journey .j-verdict {
+  position: absolute; left: 50%; top: 5.5%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 14px 28px 16px; border-radius: 22px;
+  background: rgba(7, 8, 12, 0.62); border: 1px solid var(--line-2);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  font-family: var(--font-display); font-weight: 900; line-height: 1.25; letter-spacing: -0.01em;
+  font-size: clamp(22px, 2.9vw, 42px); white-space: nowrap; pointer-events: none; opacity: 0;
+}
+.s-journey .j-verdict > span { display: block; }
+.s-journey .j-verdict .v-ok { color: var(--safe); text-shadow: 0 0 30px rgba(111, 240, 184, 0.45); }
+.s-journey .j-verdict .v-no { color: #ff6b7c; text-shadow: 0 0 30px rgba(255, 77, 97, 0.5); }
+.s-journey .j-verdict--leak { border-color: rgba(255, 77, 97, 0.5); background: rgba(40, 6, 12, 0.7); }
+.s-journey .j-verdict .v-leak { color: #ff5d6f; font-size: 1.25em; text-shadow: 0 0 36px rgba(255, 77, 97, 0.7); }
+.s-journey .j-verdict .v-sub { font-family: var(--font-sans); font-weight: 700; font-size: 0.42em; letter-spacing: 0.04em; color: #ffc2c9; }
+
+/* ---------- 控制台：字幕 + 按钮 ---------- */
+.s-journey .j-console {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 18px 32px;
+  margin-top: 22px; padding: 22px 26px; border-radius: var(--r-md);
+  background: linear-gradient(180deg, rgba(27, 32, 48, 0.6), rgba(14, 17, 25, 0.6));
+  border: 1px solid var(--line);
+}
+.s-journey .j-caption { min-height: 108px; }
+.s-journey .j-caption__meta { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+.s-journey .j-caption__num { font-family: var(--font-latin); font-style: italic; font-size: 22px; color: var(--amber); letter-spacing: 0.02em; }
+.s-journey .j-caption__sc { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; color: var(--text-3); padding: 2px 10px; border: 1px solid var(--line-2); border-radius: var(--r-pill); }
+.s-journey .j-caption__title { font-family: var(--font-display); font-weight: 900; font-size: clamp(22px, 2vw, 28px); line-height: 1.35; margin: 2px 0 6px; }
+.s-journey .j-caption__text { margin: 0; color: var(--text-2); font-size: 16px; line-height: 1.75; max-width: 40em; }
+.s-journey .j-controls { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; }
+.s-journey .j-play { min-width: 112px; }
+.s-journey .j-play .i-pause { display: none; }
+.s-journey .j-play.is-playing .i-play { display: none; }
+.s-journey .j-play.is-playing .i-pause { display: block; }
+
+/* 逐步查看轨道 */
+.s-journey .j-rail {
+  display: grid; grid-template-columns: repeat(var(--n, 6), minmax(0, 1fr)); gap: 6px;
+  margin-top: 12px; counter-reset: none;
+}
+.s-journey .j-rail button {
+  position: relative; width: 100%; display: flex; align-items: center; gap: 10px; min-height: 48px;
+  padding: 8px 12px; border-radius: 14px; text-align: left;
+  border: 1px solid var(--line); background: rgba(244, 239, 230, 0.025);
+  color: var(--text-3); font-size: 13.5px; font-weight: 700; line-height: 1.3;
+  transition: color var(--t-mid), border-color var(--t-mid), background var(--t-mid) var(--ease-out);
+  overflow: hidden;
+}
+.s-journey .j-rail button::after {
+  content: ''; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%;
+  background: var(--grad-warm); transform: scaleX(0); transform-origin: 0 50%;
+  transition: transform 0.6s var(--ease-out);
+}
+.s-journey .j-rail button:hover { color: var(--text); border-color: var(--line-3); }
+.s-journey .j-rail button .n { font-family: var(--font-latin); font-style: italic; font-size: 20px; font-weight: 400; color: var(--text-4); transition: color var(--t-mid); }
+.s-journey .j-rail button.is-done { color: var(--text-2); }
+.s-journey .j-rail button.is-done .n { color: rgba(255, 179, 92, 0.6); }
+.s-journey .j-rail button.is-done::after { transform: scaleX(1); opacity: 0.4; }
+.s-journey .j-rail button[aria-current='step'] { color: var(--text); border-color: rgba(255, 179, 92, 0.45); background: rgba(255, 179, 92, 0.08); }
+.s-journey .j-rail button[aria-current='step'] .n { color: var(--amber); }
+.s-journey .j-rail button[aria-current='step']::after { transform: scaleX(1); }
+
+/* 图例 + 声明 */
+.s-journey .j-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; margin-top: 22px; }
+.s-journey .j-legend { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 13.5px; color: var(--text-2); }
+.s-journey .j-legend li { display: inline-flex; align-items: center; gap: 10px; }
+.s-journey .lg { display: inline-block; width: 30px; height: 0; border-top: 3px solid; border-radius: 3px; }
+.s-journey .lg--out { border-color: #ffc070; box-shadow: 0 0 10px rgba(255, 179, 92, 0.7); }
+.s-journey .lg--back { border-top-style: dotted; border-color: #ffd08a; }
+.s-journey .lg--next { border-top: 2px dashed rgba(244, 239, 230, 0.6); }
+.s-journey .lg--direct { border-top: 3px dashed var(--danger); }
+.s-journey .j-note { margin: 0; font-size: 13.5px; color: var(--text-2); display: inline-flex; align-items: center; gap: 8px; }
+.s-journey .j-note::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--info); box-shadow: 0 0 10px var(--info); }
+
+.s-journey .j-after { display: grid; gap: 18px; margin-top: clamp(40px, 5vw, 64px); max-width: 900px; }
+.s-journey .j-pro { padding: 24px 26px; border-radius: var(--r-md); border: 1px solid rgba(143, 180, 255, 0.28); background: linear-gradient(160deg, rgba(143, 180, 255, 0.07), rgba(14, 17, 25, 0.7) 60%); }
+.s-journey .j-pro__head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.s-journey .j-pro__title { font-weight: 800; font-size: 17px; }
+.s-journey .j-pro__list { margin: 0; display: grid; gap: 12px; }
+.s-journey .j-pro__list > div { display: grid; grid-template-columns: 104px 1fr; gap: 16px; padding-top: 12px; border-top: 1px solid var(--line); }
+.s-journey .j-pro__list > div:first-child { border-top: 0; padding-top: 0; }
+.s-journey .j-pro__list dt { font-weight: 800; color: var(--info); font-size: 15px; }
+.s-journey .j-pro__list dd { margin: 0; color: var(--text-2); font-size: 15px; line-height: 1.75; }
+
+/* ============================================================
+   SVG 美术
+   ============================================================ */
+.s-journey .j-t { font-family: var(--font-sans); font-size: 13px; font-weight: 700; fill: var(--text-2); text-anchor: middle; letter-spacing: 0.02em; }
+.s-journey .j-t--plate { font-size: 12px; fill: #2a1408; font-weight: 800; }
+.s-journey .j-t--tag { font-size: 12px; font-weight: 800; }
+.s-journey .j-t--warn { fill: var(--warn); }
+.s-journey .j-t--safe { fill: var(--safe); }
+.s-journey .j-t--sign { font-family: var(--font-display); font-size: 21px; font-weight: 900; fill: #2a1408; letter-spacing: 0.2em; }
+.s-journey .j-t--sign.is-off { fill: rgba(244, 239, 230, 0.2); }
+.s-journey .j-t--closed { font-size: 12px; fill: #ffb3bc; font-weight: 800; }
+.s-journey .j-t--notice { font-size: 9.5px; fill: #3a2a12; font-weight: 800; }
+.s-journey .j-t--isle { font-family: var(--font-display); font-size: 24px; font-weight: 900; fill: rgba(255, 208, 138, 0.85); letter-spacing: 0.06em; }
+.s-journey .j-t--sea { font-family: var(--font-display); font-size: 20px; font-weight: 800; fill: rgba(143, 180, 255, 0.35); letter-spacing: 0.4em; }
+.s-journey .j-t--pill { font-size: 13px; font-weight: 800; fill: var(--text-2); }
+.s-journey .j-t--bill-h { font-size: 13px; fill: var(--text-3); }
+.s-journey .j-t--bill-v { font-family: var(--font-display); font-size: 25px; font-weight: 900; }
+.s-journey .j-t--bill-v.is-none { fill: rgba(244, 239, 230, 0.3); font-size: 19px; }
+.s-journey .j-t--bill-v.is-safe { fill: var(--safe); }
+.s-journey .j-t--bill-v.is-danger { fill: #ff6b7c; }
+.s-journey .j-t--bubble-h { font-size: 12px; fill: var(--text-3); }
+.s-journey .j-t--bubble { font-size: 15px; fill: var(--amber-2); font-weight: 800; }
+.s-journey .j-t--card { font-size: 14px; font-weight: 800; }
+.s-journey .j-t--q { font-family: var(--font-display); font-size: 22px; font-weight: 900; fill: #2a1408; }
+.s-journey .j-t--stop { font-size: 17px; font-weight: 900; fill: #fff; letter-spacing: 0.04em; }
+
+/* 夜空 */
+.s-journey .j-star { fill: #f4efe6; opacity: 0.55; }
+.s-journey .j-star.is-tw { animation: j-twinkle 3.6s ease-in-out infinite; }
+@keyframes j-twinkle { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.95; } }
+.s-journey .j-moon__halo { fill: rgba(255, 208, 138, 0.1); }
+.s-journey .j-moon__disc { fill: #ffe2b0; }
+.s-journey .j-moon__cut { fill: #0a1020; }
+.s-journey .j-horizon { stroke: rgba(143, 180, 255, 0.25); stroke-width: 1; }
+.s-journey .j-waves path { fill: none; stroke: rgba(143, 180, 255, 0.22); stroke-width: 1.6; stroke-linecap: round; animation: j-wave 6s linear infinite; }
+.s-journey .j-waves path:nth-child(2) { animation-duration: 8s; animation-direction: reverse; stroke: rgba(143, 180, 255, 0.14); }
+.s-journey .j-waves path:nth-child(3) { animation-duration: 10s; stroke: rgba(255, 208, 138, 0.12); }
+@keyframes j-wave { to { transform: translateX(60px); } }
+
+.s-journey .j-skyline rect { fill: #0d1324; }
+.s-journey .j-skyline rect.is-far { fill: #0b1020; }
+.s-journey .j-skyline .j-skyline__win { fill: rgba(255, 208, 138, 0.45); }
+.s-journey .j-land { fill: #0b0f1c; }
+.s-journey .j-land--island { fill: #0d1222; }
+.s-journey [data-layout='tall'] .j-land--island { fill: #0f1528; stroke: rgba(255, 208, 138, 0.12); stroke-width: 1.4; }
+.s-journey .j-shore { fill: none; stroke: rgba(143, 180, 255, 0.2); stroke-width: 1.4; }
+
+/* 桥 */
+.s-journey .j-bridge__cable { fill: none; stroke: rgba(255, 208, 138, 0.45); stroke-width: 2.2; stroke-linejoin: round; }
+.s-journey .j-bridge__hangers { stroke: rgba(255, 208, 138, 0.18); stroke-width: 1.2; }
+.s-journey .j-bridge__tower { fill: #161d31; stroke: rgba(255, 208, 138, 0.3); stroke-width: 1.4; }
+.s-journey .j-bridge__pier { stroke: #121829; stroke-width: 14; }
+.s-journey .j-bridge__rail { stroke: rgba(255, 208, 138, 0.25); stroke-width: 2; }
+.s-journey .j-bridge__lights circle { fill: #ffd08a; animation: j-twinkle 2.4s ease-in-out infinite; }
+
+/* 路 */
+.s-journey .j-road { fill: rgba(20, 25, 40, 0.92); stroke: rgba(244, 239, 230, 0.06); stroke-width: 1; }
+.s-journey .j-road__edge { stroke: rgba(255, 208, 138, 0.14); stroke-width: 1.4; }
+.s-journey .j-road__mid { stroke: rgba(244, 239, 230, 0.08); stroke-width: 2; stroke-dasharray: 14 16; }
+
+/* 路线 */
+.s-journey .j-lane { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.s-journey .j-lane--out { stroke: rgba(255, 179, 92, 0.2); stroke-width: 7; }
+.s-journey .j-lane--back { stroke: rgba(255, 208, 138, 0.5); stroke-width: 3.6; stroke-dasharray: 0.1 11; }
+.s-journey .j-lane--next { stroke: rgba(244, 239, 230, 0.35); stroke-width: 2; stroke-dasharray: 6 7; }
+.s-journey .j-lane--direct { stroke: rgba(244, 239, 230, 0.16); stroke-width: 2; stroke-dasharray: 3 9; }
+.s-journey .j-lane--side, .s-journey .j-lane--sideGo { stroke: rgba(255, 209, 102, 0.55); stroke-width: 2.4; stroke-dasharray: 5 8; }
+.s-journey .j-lit { fill: none; stroke: #ffe3b0; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; filter: url(#jr-glow-line); }
+.s-journey .j-lit.is-red { stroke: #ff4d61; stroke-width: 4; }
+.s-journey .j-stage.is-back .j-lane--back { stroke: rgba(255, 208, 138, 0.9); }
+
+/* 房子通用 */
+.s-journey .j-wall { fill: #171d31; stroke: rgba(255, 208, 138, 0.32); stroke-width: 1.6; }
+.s-journey .j-wall--proxy { fill: #1a1a2e; }
+.s-journey .j-wall--new { fill: #1b2036; stroke: rgba(255, 209, 102, 0.5); }
+.s-journey .j-wall2 { fill: #141a2c; stroke: rgba(255, 208, 138, 0.22); stroke-width: 1.4; }
+.s-journey .j-roof { fill: #11172a; stroke: rgba(255, 208, 138, 0.2); stroke-width: 1.4; stroke-linejoin: round; }
+.s-journey .j-roof-edge { fill: none; stroke: rgba(255, 179, 92, 0.6); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; filter: url(#jr-glow-line); }
+.s-journey .j-win-glass { fill: #ffcf8a; filter: url(#jr-glow); }
+.s-journey .j-win-glass.is-dim { fill: rgba(255, 207, 138, 0.16); filter: none; }
+.s-journey .j-win-glow { fill: #fff3d6; filter: url(#jr-glow-lg); }
+.s-journey .j-win-frame { stroke: rgba(10, 14, 26, 0.7); stroke-width: 2; }
+.s-journey .j-win-screen { fill: #1b2340; }
+.s-journey .j-win-stand { stroke: #2a1408; stroke-width: 2; stroke-linecap: round; }
+.s-journey .j-win-prompt { fill: none; stroke: var(--safe); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.s-journey .j-win-lit { fill: #ffcf8a; opacity: 0.85; }
+.s-journey .j-win-lit.is-soft { opacity: 0.75; filter: url(#jr-glow); }
+.s-journey .j-door { fill: #2a2030; stroke: rgba(255, 208, 138, 0.4); stroke-width: 1.4; }
+.s-journey .j-door-lit { fill: rgba(255, 179, 92, 0.35); }
+.s-journey .j-knob { fill: var(--amber); }
+.s-journey .j-step { fill: rgba(244, 239, 230, 0.12); }
+.s-journey .j-plate rect { fill: #ffd08a; }
+.s-journey .j-plate--proxy rect { fill: #ffe7bf; }
+
+.s-journey .j-sidedoor__glow { fill: rgba(255, 209, 102, 0.28); stroke: var(--warn); stroke-width: 1.6; filter: url(#jr-glow); }
+.s-journey .j-sidedoor__door { fill: #221c2a; stroke: rgba(255, 208, 138, 0.28); stroke-width: 1.2; }
+.s-journey .j-sidedoor__tag rect { fill: rgba(7, 8, 12, 0.85); stroke: rgba(255, 209, 102, 0.6); stroke-width: 1.2; }
+.s-journey .j-sidedoor__arrow { stroke: var(--warn); stroke-width: 1.6; stroke-linecap: round; }
+.s-journey .j-notice rect { fill: #f4e6c4; stroke: #c9a864; stroke-width: 1; }
+
+/* 代收点 */
+.s-journey .j-awning { fill: #2b2140; stroke: rgba(255, 122, 82, 0.5); stroke-width: 1.4; }
+.s-journey .j-awning-stripes { stroke: rgba(255, 122, 82, 0.35); stroke-width: 6; }
+.s-journey .j-parcel-s { fill: #c98a4a; stroke: #7a4a22; stroke-width: 1; }
+.s-journey .j-sign-post { stroke: rgba(244, 239, 230, 0.25); stroke-width: 3; }
+.s-journey .j-sign-off { fill: #1c1f2e; stroke: rgba(244, 239, 230, 0.14); stroke-width: 1.4; }
+.s-journey .j-sign-on { fill: #ffc070; }
+.s-journey .j-sign-glow { fill: rgba(255, 170, 90, 0.45); filter: url(#jr-glow-lg); }
+.s-journey .j-lamp { animation: j-neon 5s ease-in-out infinite; }
+@keyframes j-neon { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.12); } }
+.s-journey .j-closed rect { fill: rgba(40, 8, 14, 0.9); stroke: rgba(255, 77, 97, 0.7); stroke-width: 1.4; }
+
+/* 闸门 */
+.s-journey .j-gate__post { fill: #1d2438; stroke: rgba(255, 208, 138, 0.4); stroke-width: 1.4; }
+.s-journey .j-gate__beam { fill: #232b42; stroke: rgba(255, 208, 138, 0.45); stroke-width: 1.4; }
+.s-journey .j-gate__bar path { fill: none; stroke: rgba(255, 208, 138, 0.8); stroke-width: 3.2; stroke-linecap: round; }
+.s-journey .j-gate__lamp { fill: #10141f; stroke: rgba(244, 239, 230, 0.25); stroke-width: 1.4; }
+.s-journey .j-gate__red { fill: var(--danger); filter: url(#jr-glow); }
+.s-journey .j-gate__green { fill: var(--safe); filter: url(#jr-glow); }
+
+/* 直连小路上的闸门 */
+.s-journey .j-barrier__bar rect { fill: var(--danger); stroke: #ffd6db; stroke-width: 1.6; }
+.s-journey .j-barrier__bar path { stroke: #fff; stroke-width: 4; stroke-linecap: round; opacity: 0.9; }
+.s-journey .j-barrier__flash { fill: #fff; filter: url(#jr-glow-lg); }
+.s-journey .j-ghost rect { fill: rgba(111, 240, 184, 0.08); stroke: var(--safe); stroke-width: 2; stroke-dasharray: 5 5; filter: url(#jr-glow); }
+
+/* 侧门锁 */
+.s-journey .j-planks path { stroke: #b98246; stroke-width: 7; stroke-linecap: round; }
+.s-journey .j-padlock__shackle { fill: none; stroke: #e7e3ee; stroke-width: 3.4; stroke-linecap: round; }
+.s-journey .j-padlock__body { fill: var(--danger); stroke: #ffd6db; stroke-width: 1.4; }
+.s-journey .j-padlock__hole { fill: #3a0a12; }
+
+/* 停止牌 */
+.s-journey .j-stop__post { stroke: rgba(244, 239, 230, 0.5); stroke-width: 4; stroke-linecap: round; }
+.s-journey .j-stop__board { fill: #e0283f; stroke: #ffc2c9; stroke-width: 2; filter: drop-shadow(0 10px 24px rgba(255, 40, 70, 0.55)); }
+.s-journey .j-stop__oct { fill: #fff; }
+.s-journey .j-stop__bar { stroke: #e0283f; stroke-width: 4; stroke-linecap: round; }
+
+/* 灯塔 */
+.s-journey .j-tower__body { fill: #1b2138; stroke: rgba(255, 208, 138, 0.45); stroke-width: 1.6; stroke-linejoin: round; }
+.s-journey .j-tower__stripe { stroke: rgba(255, 122, 82, 0.55); stroke-width: 5; }
+.s-journey .j-tower__room { fill: #ffe0a6; filter: url(#jr-glow); }
+.s-journey .j-tower__cap { fill: #11172a; stroke: rgba(255, 208, 138, 0.5); stroke-width: 1.4; stroke-linejoin: round; }
+.s-journey .j-tower__light { fill: #fff; filter: url(#jr-glow-lg); }
+.s-journey .j-beam path { fill: url(#jr-beam); }
+.s-journey .j-beam { transform-origin: 0px -150px; animation: j-sweep 7s ease-in-out infinite alternate; }
+@keyframes j-sweep { from { transform: rotate(-14deg); } to { transform: rotate(12deg); } }
+
+.s-journey .j-newb__sign { fill: rgba(7, 8, 12, 0.85); stroke: rgba(255, 209, 102, 0.6); stroke-width: 1.2; }
+
+/* 告示牌 */
+.s-journey .j-bill__pole { stroke: rgba(244, 239, 230, 0.2); stroke-width: 4; }
+.s-journey .j-bill__panel { fill: rgba(9, 12, 22, 0.92); stroke: rgba(244, 239, 230, 0.2); stroke-width: 1.6; }
+.s-journey .j-bill__panel.is-safe { fill: rgba(10, 40, 32, 0.92); stroke: var(--safe); filter: drop-shadow(0 0 16px rgba(111, 240, 184, 0.35)); }
+.s-journey .j-bill__panel.is-danger { fill: rgba(50, 8, 16, 0.94); stroke: var(--danger); stroke-width: 2.4; filter: drop-shadow(0 0 22px rgba(255, 77, 97, 0.65)); }
+.s-journey .j-bill__eye path { fill: none; stroke: var(--text-3); stroke-width: 1.8; }
+.s-journey .j-bill__eye circle { fill: var(--text-3); }
+
+/* 浮层卡片 */
+.s-journey .j-bubble rect { fill: rgba(7, 8, 12, 0.86); stroke: rgba(255, 179, 92, 0.55); stroke-width: 1.4; }
+.s-journey .j-card rect { fill: rgba(7, 8, 12, 0.88); stroke-width: 1.6; }
+.s-journey .j-card rect.is-warn { stroke: var(--warn); }
+.s-journey .j-card rect.is-safe { stroke: var(--safe); }
+
+/* 站牌 */
+.s-journey .j-pill rect { fill: rgba(7, 8, 12, 0.7); stroke: var(--line-2); stroke-width: 1.2; transition: stroke 0.4s, fill 0.4s; }
+.s-journey .j-pill .j-t { transition: fill 0.4s; }
+.s-journey .j-pill.is-on rect { fill: rgba(255, 179, 92, 0.16); stroke: var(--amber); }
+.s-journey .j-pill.is-on .j-t { fill: var(--amber-2); }
+
+/* 吉祥物身上的牌子与包裹 */
+.s-journey .j-headplate rect { fill: #ffe7bf; stroke: rgba(42, 20, 8, 0.4); stroke-width: 1; filter: drop-shadow(0 4px 10px rgba(255, 179, 92, 0.45)); }
+.s-journey .j-headplate.is-danger rect { fill: #ff8a96; stroke: #ffd6db; filter: drop-shadow(0 4px 14px rgba(255, 77, 97, 0.7)); }
+.s-journey .j-parcel rect { fill: #d99a55; stroke: #6d4018; stroke-width: 1.2; }
+.s-journey .j-parcel path { stroke: #6d4018; stroke-width: 1.4; }
+
+.s-journey .j-alarm { pointer-events: none; }
+
+/* 没有防护：防护设施退场 */
+.s-journey [data-leak='1'] .j-gate__bar, .s-journey [data-leak='1'] .j-gate__red, .s-journey [data-leak='1'] .j-gate__green { display: none; }
+.s-journey [data-leak='1'] .j-gate__post, .s-journey [data-leak='1'] .j-gate__beam { opacity: 0.35; stroke-dasharray: 4 4; }
+.s-journey [data-leak='1'] .j-lane--direct { stroke: rgba(255, 77, 97, 0.35); }
+
+/* ============================================================
+   窄屏：竖向路线
+   ============================================================ */
+.s-journey [data-layout='tall'] .j-t--isle { font-size: 20px; }
+.s-journey [data-layout='tall'] .j-t--pill { font-size: 12.5px; }
+.s-journey .j-stagecard[data-layout='tall'] .j-verdict { top: 31%; font-size: clamp(20px, 6vw, 28px); padding: 12px 20px 14px; }
+
+@media (max-width: 960px) {
+  .s-journey .j-rail { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 720px) {
+  .s-journey .j-top { flex-direction: column; align-items: stretch; }
+  .s-journey .j-scenes { display: grid; grid-template-columns: 1fr 1fr; border-radius: 20px; }
+  .s-journey .j-scenes button { border-radius: 14px; padding: 0 10px; }
+  .s-journey .j-switch { justify-content: flex-start; }
+  .s-journey .j-stagecard { border-radius: var(--r-md); margin: 0 calc(var(--gutter) * -0.5); }
+  .s-journey .j-badges { left: 10px; top: 10px; }
+  .s-journey .j-badge { font-size: 11px; padding: 4px 10px; }
+  .s-journey .j-console { grid-template-columns: 1fr; padding: 18px 18px; gap: 14px; }
+  .s-journey .j-caption { min-height: 132px; }
+  .s-journey .j-caption__text { font-size: 15.5px; }
+  .s-journey .j-controls { justify-content: stretch; display: grid; grid-template-columns: 1.2fr 1fr 1fr; }
+  .s-journey .j-controls .btn { padding: 0 10px; min-width: 0; }
+  .s-journey .j-rail { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .s-journey .j-rail button { min-height: 44px; font-size: 13px; }
+  .s-journey .j-pro__list > div { grid-template-columns: 1fr; gap: 4px; }
+}

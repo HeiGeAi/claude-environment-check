@@ -1,0 +1,19 @@
+{
+  "name": "claude-environment-check",
+  "private": true,
+  "version": "0.1.1",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "python3 -m http.server 5190 --bind 127.0.0.1 --directory dist",
+    "test": "python3 -m unittest discover -s tests && node --test tests/test_web.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.63.0",
+    "vite": "^8.3.1"
+  },
+  "dependencies": {
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.26"
+  }
+}

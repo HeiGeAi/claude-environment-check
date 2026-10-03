@@ -1,0 +1,10 @@
+node_modules/
+dist/
+artifacts/
+reports/
+claude-check-reports/
+__pycache__/
+*.pyc
+.DS_Store
+.env
+*.log

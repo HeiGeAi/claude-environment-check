@@ -1,0 +1,134 @@
+/* ============================================================
+   设计令牌 · 夜色小城
+   世界观：夜里的一座小城。你的电脑是一栋房子，每个网络请求是一个
+   会发光的小信使。受控路线是暖金色的灯带，泄漏是红色警报。
+   ============================================================ */
+
+@font-face {
+  font-family: 'GuideSerif';
+  src: url('../assets/fonts/serif-sc.woff2') format('woff2');
+  font-weight: 600 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument';
+  src: url('../assets/fonts/instrument.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument';
+  src: url('../assets/fonts/instrument-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JB Mono';
+  src: url('../assets/fonts/mono.woff2') format('woff2');
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+:root {
+  /* —— 底色：夜 —— */
+  --bg: #07080c;
+  --bg-1: #0a0c12;
+  --bg-2: #0e1119;
+  --bg-3: #141824;
+  --bg-4: #1b2030;
+
+  /* —— 文字：暖纸 —— */
+  --text: #f4efe6;
+  --text-2: rgba(244, 239, 230, 0.74);
+  --text-3: rgba(244, 239, 230, 0.5);
+  --text-4: rgba(244, 239, 230, 0.32);
+
+  /* —— 线 —— */
+  --line: rgba(244, 239, 230, 0.09);
+  --line-2: rgba(244, 239, 230, 0.16);
+  --line-3: rgba(244, 239, 230, 0.28);
+
+  /* —— 主色：受控路线的暖光 —— */
+  --amber: #ffb35c;
+  --amber-2: #ffd08a;
+  --coral: #ff7a52;
+  --rose: #ff5d73;
+  --grad-warm: linear-gradient(120deg, #ffd08a 0%, #ffb35c 30%, #ff7a52 62%, #ff5d73 100%);
+  --grad-warm-soft: linear-gradient(120deg, rgba(255, 208, 138, 0.16), rgba(255, 122, 82, 0.1));
+
+  /* —— 语义色 —— */
+  --safe: #6ff0b8;      /* 通过 / 受保护 */
+  --safe-dim: rgba(111, 240, 184, 0.14);
+  --warn: #ffd166;      /* 需审查 */
+  --warn-dim: rgba(255, 209, 102, 0.14);
+  --danger: #ff4d61;    /* 泄漏 / 禁止 */
+  --danger-dim: rgba(255, 77, 97, 0.14);
+  --info: #8fb4ff;      /* 进阶 / 技术 */
+  --info-dim: rgba(143, 180, 255, 0.14);
+
+  /* —— 发光 —— */
+  --glow-amber: 0 0 24px rgba(255, 170, 90, 0.35), 0 0 80px rgba(255, 122, 82, 0.18);
+  --glow-safe: 0 0 24px rgba(111, 240, 184, 0.35);
+  --glow-danger: 0 0 24px rgba(255, 77, 97, 0.45);
+
+  /* —— 字体 —— */
+  --font-display: 'GuideSerif', 'Songti SC', 'Noto Serif SC', 'Source Han Serif SC', serif;
+  --font-latin: 'Instrument', 'GuideSerif', 'Songti SC', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'HarmonyOS Sans SC', 'MiSans', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+  --font-mono: 'JB Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* —— 字号（流体） —— */
+  --fs-hero: clamp(48px, 8.4vw, 140px);
+  --fs-h2: clamp(36px, 5.2vw, 80px);
+  --fs-h3: clamp(22px, 2.2vw, 32px);
+  --fs-h4: clamp(18px, 1.5vw, 22px);
+  --fs-lead: clamp(17px, 1.45vw, 21px);
+  --fs-body: 17px;
+  --fs-small: 14px;
+  --fs-tiny: 12px;
+  --lh-body: 1.85;
+
+  /* —— 间距 —— */
+  --gutter: clamp(20px, 4vw, 56px);
+  --wrap: 1240px;
+  --wrap-narrow: 760px;
+  --section-y: clamp(110px, 15vh, 200px);
+
+  /* —— 圆角 —— */
+  --r-xs: 8px;
+  --r-sm: 12px;
+  --r-md: 18px;
+  --r-lg: 28px;
+  --r-xl: 40px;
+  --r-pill: 999px;
+
+  /* —— 动效 —— */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);      /* expo.out */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --t-fast: 0.18s;
+  --t-mid: 0.4s;
+  --t-slow: 0.9s;
+
+  /* —— 层级 —— */
+  --z-ambient: 0;
+  --z-content: 1;
+  --z-topbar: 50;
+  --z-menu: 80;
+  --z-toast: 90;
+  --z-gate: 100;
+
+  /* —— 氛围色（main.js 按章节 mood 切换） —— */
+  --mood-a: rgba(255, 150, 70, 0.22);
+  --mood-b: rgba(90, 80, 200, 0.18);
+  --mood-c: rgba(255, 93, 115, 0.1);
+}
+
+html[data-mood='calm']    { --mood-a: rgba(255, 150, 70, 0.2);  --mood-b: rgba(80, 90, 210, 0.16); --mood-c: rgba(255, 93, 115, 0.08); }
+html[data-mood='journey'] { --mood-a: rgba(255, 180, 90, 0.24); --mood-b: rgba(60, 120, 230, 0.16); --mood-c: rgba(111, 240, 184, 0.08); }
+html[data-mood='focus']   { --mood-a: rgba(110, 150, 255, 0.18); --mood-b: rgba(255, 150, 70, 0.12); --mood-c: rgba(140, 100, 255, 0.1); }
+html[data-mood='tension'] { --mood-a: rgba(255, 60, 80, 0.2);   --mood-b: rgba(120, 40, 160, 0.16); --mood-c: rgba(255, 150, 70, 0.08); }
+html[data-mood='safe']    { --mood-a: rgba(111, 240, 184, 0.16); --mood-b: rgba(255, 170, 90, 0.14); --mood-c: rgba(80, 120, 230, 0.1); }
+html[data-mood='triumph'] { --mood-a: rgba(255, 200, 110, 0.26); --mood-b: rgba(255, 93, 115, 0.16); --mood-c: rgba(111, 240, 184, 0.12); }
