@@ -219,7 +219,7 @@ async function start() {
     if (!optedWebRTC) checks.push(check('browser.webrtc', 'SKIPPED', null, '没有启用额外的 WebRTC／STUN 检查。', '按需勾选后重新运行。', false, '用户未启用'));
     checks.push(...gaps());
     setProgress(3, signal.aborted ? '已停止' : '检测完成');
-    state.report = validateReport({ schema_version: SCHEMA_VERSION, tool_version: 'web-0.1.3', checked_at: checkedAt,
+    state.report = validateReport({ schema_version: SCHEMA_VERSION, tool_version: 'web-0.1.4', checked_at: checkedAt,
       run_location: 'browser', scope: { kind: 'browser', network: true, webrtc: optedWebRTC, description: '当前浏览器上下文与显式启用的匿名网络探测' },
       platform: { kind: 'browser' }, checks, limitations: signal.aborted ? ['用户停止了本轮检测，报告保留已取得的证据。', ...LIMITATIONS] : LIMITATIONS });
     state.origin = 'browser'; state.redactor = createRedactor(); renderReport();

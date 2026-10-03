@@ -28,7 +28,7 @@ try {
     await page.waitForFunction(() => Number(getComputedStyle(document.querySelector('.s-hero__actions')).opacity) > .99);
     assert.equal(await page.locator('#main > section').count(), 18);
     assert.equal(await page.getByRole('link', { name: '环境检测', exact: true }).isVisible(), true);
-    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false);
     await page.screenshot({ path: path.join(output, `home-${viewport.width}.png`) });
     const manualTheme = await page.evaluate(() => { const s = getComputedStyle(document.documentElement); return Object.fromEntries(['--bg', '--amber', '--grad-warm', '--font-display', '--font-sans', '--font-mono'].map(name => [name, s.getPropertyValue(name).trim()])); });
     await page.getByRole('link', { name: '环境检测', exact: true }).click();
@@ -45,7 +45,7 @@ try {
     await page.waitForFunction(() => ['complete', 'static'].includes(document.documentElement.dataset.intro));
     evidence.checks.shared_manual_visual_system = true;
     assert.equal(externalRequests.length, 0, 'initial page must not contact probes');
-    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false);
     assert.equal(await page.locator('a[href="../"]').count() > 0, true);
     await page.screenshot({ path: path.join(output, `check-${viewport.width}.png`) });
     await page.locator('.endpoint-fold summary').click();
@@ -55,7 +55,7 @@ try {
     await page.waitForFunction(() => !document.querySelector('#start').disabled && !document.querySelector('#results-section').hidden, null, { timeout: 22000 });
     const live = await page.locator('#checks .check').evaluateAll(rows => rows.map(row => ({ title: row.querySelector('h3').textContent, status: row.querySelector('.check-status').dataset.status })));
     assert.equal(live.length >= 10, true);
-    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false);
     await page.screenshot({ path: path.join(output, `results-${viewport.width}.png`), fullPage: true });
     const exportButton = page.locator('#export');
     const downloadPromise = page.waitForEvent('download');
@@ -109,7 +109,7 @@ try {
     assert.equal(await page.locator('#chapter-menu').isVisible(), true);
     await page.keyboard.press('Escape');
     await page.locator('#chapter-menu').waitFor({ state: 'hidden' });
-    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false);
     await page.screenshot({ path: path.join(output, `manual-${viewport.width}.png`) });
     const fonts = await page.evaluate(async () => { await document.fonts.ready; return [...document.fonts].map(font => ({ family: font.family, status: font.status })); });
     assert.equal(fonts.every(font => font.status === 'loaded'), true);

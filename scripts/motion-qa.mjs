@@ -44,7 +44,7 @@ async function top(page) {
   await page.waitForFunction(() => document.querySelector('.hero').dataset.gateVisible === 'true');
 }
 async function bounds(page) {
-  const result = await page.evaluate(() => ({ viewport: innerWidth, scroll_width: document.documentElement.scrollWidth }));
+  const result = await page.evaluate(() => ({ viewport: document.documentElement.clientWidth, scroll_width: document.documentElement.scrollWidth }));
   assert.ok(result.scroll_width <= result.viewport, 'horizontal overflow');
   for (const id of ['start', 'motion-toggle', 'report-file']) assert.equal(await page.locator(`#${id}`).isEnabled(), true, `${id} remains usable`);
   return result;

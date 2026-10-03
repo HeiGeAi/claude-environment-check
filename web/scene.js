@@ -53,6 +53,8 @@ export function createScene() {
   }
   function layout() {
     if (disposed) return;
+    // Classic scrollbars consume layout width; 100vw includes that gutter.
+    document.documentElement.style.setProperty('--page-width', `${document.documentElement.clientWidth}px`);
     const w = hero.clientWidth, h = hero.clientHeight;
     const wide = w > 760;
     unit = Math.min(w * 1.25, h);
@@ -142,12 +144,14 @@ export function createScene() {
     disposed = true; stop(); resize.disconnect(); intersection.disconnect(); renderer?.dispose(); renderer = null;
     document.removeEventListener('visibilitychange', onVisibility);
     document.removeEventListener('check:motion-change', onReduced);
+    window.removeEventListener('resize', layout);
     reduced.removeEventListener('change', onReduced); hero.removeEventListener('pointermove', onMove); hero.removeEventListener('pointerleave', onLeave);
     window.removeEventListener('scroll', onScroll);
     canvas?.removeEventListener('webglcontextlost', onLost); canvas?.removeEventListener('webglcontextrestored', onRestored);
     window.removeEventListener('pagehide', onPageHide);
   }
   function attachListeners() {
+    window.addEventListener('resize', layout, { passive: true });
     document.addEventListener('visibilitychange', onVisibility); reduced.addEventListener('change', onReduced);
     document.addEventListener('check:motion-change', onReduced);
     hero.addEventListener('pointermove', onMove, { passive: true }); hero.addEventListener('pointerleave', onLeave);
