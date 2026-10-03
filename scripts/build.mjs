@@ -8,7 +8,12 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const dist = path.join(root, 'dist');
 await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
-await cp(path.join(root, 'web'), path.join(dist, 'check'), { recursive: true });
+await build({
+  configFile: false,
+  root: path.join(root, 'web'),
+  base: './',
+  build: { outDir: path.join(dist, 'check'), emptyOutDir: true, target: 'es2020' },
+});
 await build({
   configFile: false,
   root: path.join(root, 'manual'),
