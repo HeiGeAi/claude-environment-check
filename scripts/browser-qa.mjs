@@ -97,6 +97,8 @@ try {
     evidence.checks.synthetic_import_render_export = true;
     await page.locator('#report-file').setInputFiles({ name: 'bad.json', mimeType: 'application/json', buffer: Buffer.from('{broken') });
     await page.locator('#import-error').waitFor();
+    assert.equal(await page.locator('#run-journey').getAttribute('data-state'), 'error');
+    assert.equal(await page.locator('#check-scene').getAttribute('data-state'), 'error');
     evidence.checks.invalid_json_rejected = true;
     await page.getByRole('link', { name: '返回手册', exact: true }).click();
     await page.waitForFunction(() => document.querySelectorAll('#main > section').length === 18);

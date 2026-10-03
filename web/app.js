@@ -245,6 +245,7 @@ $('report-file').addEventListener('change', async event => {
   if (!file) return;
   const epoch = ++state.epoch;
   state.controller?.abort(); state.controller = null; busy(false); clearErrors();
+  scene.update('import'); motion.state('import');
   try {
     if (file.size > MAX_REPORT_BYTES) throw new Error('文件超过 1 MiB，请选择本机工具导出的 JSON。');
     const report = validateReport(await file.text());
@@ -253,6 +254,7 @@ $('report-file').addEventListener('change', async event => {
     renderReport(); $('live-status').textContent = '已在此浏览器解析报告，文件没有上传。';
   } catch (error) {
     if (epoch !== state.epoch) return;
+    scene.update('error'); motion.state('error');
     $('import-error').textContent = `报告未导入：${error instanceof SyntaxError ? '文件不是有效 JSON。' : error.message}`;
     $('import-error').hidden = false;
   } finally { if (epoch === state.epoch) $('report-file').value = ''; }
