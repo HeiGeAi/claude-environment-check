@@ -14,7 +14,9 @@
 
 ![完整手册首页](docs/images/manual-desktop.png)
 
-[查看完整章节目录](docs/手册目录.md) · [浏览器环境检测](https://heigeai.github.io/claude-environment-check/check/)
+![与手册统一的环境检测界面](docs/images/check-desktop.png)
+
+[查看完整章节目录](docs/手册目录.md) · [统一视觉规范](docs/design/DESIGN.md) · [浏览器环境检测](https://heigeai.github.io/claude-environment-check/check/)
 
 本地：Python 3.10 及以上。核心仅使用标准库；网络探针需要系统 curl。默认只读，不执行本工具网络探针。克隆后运行：
 
