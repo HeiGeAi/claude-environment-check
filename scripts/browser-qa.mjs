@@ -33,6 +33,9 @@ try {
     const manualTheme = await page.evaluate(() => { const s = getComputedStyle(document.documentElement); return Object.fromEntries(['--bg', '--amber', '--grad-warm', '--font-display', '--font-sans', '--font-mono'].map(name => [name, s.getPropertyValue(name).trim()])); });
     await page.getByRole('link', { name: '环境检测', exact: true }).click();
     await page.locator('#start').waitFor();
+    await page.waitForLoadState('load');
+    await page.waitForFunction(() => !document.querySelector('#start')?.disabled);
+    await page.evaluate(() => document.fonts.ready);
     const checkTheme = await page.evaluate(() => { const s = getComputedStyle(document.documentElement); return Object.fromEntries(['--bg', '--amber', '--grad-warm', '--font-display', '--font-sans', '--font-mono'].map(name => [name, s.getPropertyValue(name).trim()])); });
     assert.deepEqual(checkTheme, manualTheme, 'detector and manual must share the actual theme tokens');
     assert.equal(await page.locator('meta[name="color-scheme"]').getAttribute('content'), 'dark');
