@@ -1,6 +1,8 @@
 import { SCHEMA_VERSION, MAX_REPORT_BYTES, normalizeIP, compareAddresses, createRedactor, validateReport, safeExport, STATUS_LABELS, OVERALL_LABELS } from './report.js';
 import { createScene } from './scene.js';
+import { createMotion } from './motion.js';
 const scene = createScene();
+const motion = createMotion();
 
 const legacyChapters = new Set(['hero', 'truth', 'words', 'journey', 'modes', 'layers', 'domains', 'fingerprint', 'report', 'build', 'gatekeeper', 'drill', 'fix', 'privacy', 'myths', 'appeal', 'checklist', 'sources']);
 function preserveLegacyLink() {
@@ -36,7 +38,8 @@ function check(id, status, observed, message, remediation = '', required = false
   return { id, status, required, observed_at: new Date().toISOString(), source, evidence_level: level, observed, message, remediation };
 }
 function setProgress(index, label) {
-  scene.update(index === 3 ? label === '已停止' ? 'stopped' : 'complete' : 'running', index);
+  const status = index === 3 ? label === '已停止' ? 'stopped' : 'complete' : 'running';
+  scene.update(status, index); motion.state(status, index);
   $('step-index').textContent = `${String(Math.min(index + 1, 4)).padStart(2, '0')} / 04`;
   $('run-label').textContent = label;
   for (const item of $('progress').children) {
@@ -46,7 +49,7 @@ function setProgress(index, label) {
   }
 }
 function busy(value) {
-  if (value) scene.update('running', 0);
+  if (value) { scene.update('running', 0); motion.state('running', 0); }
   $('start').disabled = value;
   $('cancel').hidden = !value;
   $('webrtc-optin').disabled = value;
@@ -69,7 +72,7 @@ function renderReport(focus = true) {
   const report = $('reveal').checked ? state.report : state.redactor.redact(state.report);
   $('results-section').hidden = false;
   $('reset').hidden = false;
-  if (state.origin === 'import') scene.update('import');
+  if (state.origin === 'import') { scene.update('import'); motion.state('import'); }
   $('result-origin').textContent = state.origin === 'import' ? 'LOCAL REPORT / READ ONLY' : 'BROWSER / CURRENT RUN';
   $('results-title').textContent = state.origin === 'import' ? '本机报告记录' : '浏览器检查结果';
   const counts = Object.fromEntries(['PASS', 'FAIL', 'WARN', 'UNKNOWN', 'SKIPPED'].map(status => [status, report.checks.filter(item => item.status === status).length]));
@@ -99,6 +102,7 @@ function renderReport(focus = true) {
   }
   $('limitations').replaceChildren();
   for (const limitation of report.limitations) appendText($('limitations'), 'li', limitation);
+  motion.report(focus);
   if (focus) $('results-title').focus({ preventScroll: true });
 }
 
@@ -215,18 +219,18 @@ async function start() {
     if (!optedWebRTC) checks.push(check('browser.webrtc', 'SKIPPED', null, '没有启用额外的 WebRTC／STUN 检查。', '按需勾选后重新运行。', false, '用户未启用'));
     checks.push(...gaps());
     setProgress(3, signal.aborted ? '已停止' : '检测完成');
-    state.report = validateReport({ schema_version: SCHEMA_VERSION, tool_version: 'web-0.1.2', checked_at: checkedAt,
+    state.report = validateReport({ schema_version: SCHEMA_VERSION, tool_version: 'web-0.1.3', checked_at: checkedAt,
       run_location: 'browser', scope: { kind: 'browser', network: true, webrtc: optedWebRTC, description: '当前浏览器上下文与显式启用的匿名网络探测' },
       platform: { kind: 'browser' }, checks, limitations: signal.aborted ? ['用户停止了本轮检测，报告保留已取得的证据。', ...LIMITATIONS] : LIMITATIONS });
     state.origin = 'browser'; state.redactor = createRedactor(); renderReport();
     $('live-status').textContent = signal.aborted ? '本轮已停止。结果中标明未完成的项目。' : '本轮完成。查看每项证据与未验证的范围。';
   } catch (error) {
-    if (epoch === state.epoch) { scene.update('error'); $('error').textContent = '检测未完成，请重试。已有结果不代表本轮状态。'; $('error').hidden = false; }
+    if (epoch === state.epoch) { scene.update('error'); motion.state('error'); $('error').textContent = '检测未完成，请重试。已有结果不代表本轮状态。'; $('error').hidden = false; }
   } finally { if (epoch === state.epoch) { busy(false); state.controller = null; } }
 }
 
 $('start').addEventListener('click', start);
-$('cancel').addEventListener('click', () => { scene.update('stopped'); state.controller?.abort(); });
+$('cancel').addEventListener('click', () => { scene.update('stopped'); motion.state('stopped'); state.controller?.abort(); });
 $('reveal').addEventListener('change', () => renderReport(false));
 $('export').addEventListener('click', () => {
   if (!state.report) return;
@@ -258,7 +262,7 @@ $('reset').addEventListener('click', () => {
   busy(false); clearErrors(); $('results-section').hidden = true; $('checks').replaceChildren(); $('limitations').replaceChildren();
   $('reset').hidden = true; $('reveal').checked = false; $('report-file').value = ''; $('live-status').textContent = '当前报告已清除。';
   $('step-index').textContent = '00 / 04'; $('run-label').textContent = '等待开始';
-  scene.update('ready');
+  scene.update('ready'); motion.reset();
   for (const item of $('progress').children) item.classList.remove('current', 'complete');
   $('report-file').focus();
 });

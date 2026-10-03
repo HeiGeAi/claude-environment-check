@@ -12,24 +12,27 @@
 </head>
 <body>
   <a class="skip-link" href="#main">跳到主要内容</a>
+  <div class="reading-progress" aria-hidden="true"><i></i></div>
   <div class="night-light" aria-hidden="true"></div>
   <header class="site-header">
     <a class="brand" href="../" aria-label="返回完整手册"><span id="brand-courier" class="brand-mark" aria-hidden="true"></span><span>Claude 防封指南</span></a>
-    <nav aria-label="主要导航"><a class="back-manual" href="../"><span aria-hidden="true">←</span> 返回手册</a><a class="github-link" href="https://github.com/HeiGeAi/claude-environment-check" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></nav>
+    <nav aria-label="主要导航"><button id="motion-toggle" class="motion-toggle" type="button" aria-pressed="false" aria-label="减少动态效果"><span class="motion-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="motion-label">动效：开</span></button><a class="back-manual" href="../"><span aria-hidden="true">←</span> 返回手册</a><a class="github-link" href="https://github.com/HeiGeAi/claude-environment-check" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></nav>
   </header>
   <main id="main">
     <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-stage" aria-hidden="true"><canvas id="gate-canvas"></canvas><div class="hero-shade"></div></div>
       <div class="hero-copy-block">
         <p class="eyebrow"><span class="latin">Environment Check</span><i aria-hidden="true"></i><span>手册的实战工具</span></p>
-        <h1 id="hero-title">看清你的环境，<br><span class="text-warm">认准请求的出口。</span></h1>
+        <h1 id="hero-title" aria-label="看清你的环境，认准请求的出口。"><span class="hero-title-line" aria-hidden="true"><span>看清你的环境，</span></span><span class="hero-title-line" aria-hidden="true"><span class="text-warm">认准请求的出口。</span></span></h1>
         <p class="hero-copy">让小请求跑一趟，带回当前浏览器的网络证据。哪些已经测到，哪些还没有验证，都清楚地留在报告里。</p>
         <ul class="hero-meta" aria-label="检测特点"><li><i aria-hidden="true"></i>无需登录</li><li><i aria-hidden="true"></i>报告本地处理</li><li><i aria-hidden="true"></i>点击后才检测</li></ul>
-        <a class="hero-jump" href="#detector">开始核对我的环境 <span aria-hidden="true">↓</span></a>
+        <a class="hero-jump button primary" href="#detector">开始核对我的环境 <span aria-hidden="true">↓</span></a>
       </div>
       <figure class="scene" id="check-scene" data-state="ready" aria-labelledby="scene-caption">
         <div id="scene-art" class="scene-art" aria-hidden="true"></div>
-        <div class="scene-caption"><span class="scene-label" id="scene-label">小请求已就位</span><figcaption id="scene-caption">光门示意图随本轮进度变化，不代表检测已通过。</figcaption></div>
+        <div class="scene-caption"><span class="scene-label" id="scene-label">小请求已就位</span><figcaption id="scene-caption">背景光流是示意动画。本轮证据以检测报告为准。</figcaption></div>
       </figure>
+      <div class="hero-bottom"><span><i></i>光流汇聚 · 请求出口示意</span><a href="#detector">向下，开始核对 <b aria-hidden="true">↓</b></a></div>
     </section>
     <section class="detector section" id="detector" aria-labelledby="detector-title">
       <div class="section-heading"><p class="eyebrow"><span class="chapter-num">01</span><i aria-hidden="true"></i>浏览器体检</p><h2 id="detector-title">先让小请求跑一趟。</h2><p>核对 IPv4、IPv6 与当前连接。这里只检查当前浏览器，本机 CLI、DNS 路径与防火墙需要进一步检查。</p></div>
@@ -52,6 +55,7 @@
           <p class="caption setup-footnote">时区与语言只用于描述上下文，不生成指纹标识，不评估封号概率。</p>
         </div>
         <aside class="run-panel panel" aria-label="真实检测进度">
+          <div class="run-journey" id="run-journey" data-state="ready" aria-hidden="true"><div class="journey-orbit"><i></i><i></i><i></i></div><div class="journey-courier"></div><div class="journey-station"><span></span><span></span><span></span><span></span></div><div class="journey-track"></div><span class="journey-note">等待本轮出发</span></div>
           <div class="progress-top"><span class="step-number" id="step-index">00 / 04</span><span class="tag" id="run-label">等待开始</span></div>
           <ol class="progress-path" id="progress"><li data-step="0"><span>读取浏览器上下文</span><small>时区、语言与在线提示</small></li><li data-step="1"><span>检查 IPv4 与 IPv6</span><small>向已披露的服务发送请求</small></li><li data-step="2"><span>比较同协议出口</span><small>两个地址族分别核对</small></li><li data-step="3"><span>整理证据与限制</span><small>未验证的范围也写进报告</small></li></ol>
           <div class="scope-note"><span class="tag">本轮范围</span><p>当前浏览器</p><small>结果不代表整台电脑，也不代表 Claude 账号资格或健康状态。</small></div>
@@ -69,7 +73,7 @@
     </section>
     <section class="section local-section" aria-labelledby="local-title">
       <div class="section-heading"><p class="eyebrow"><span class="chapter-num">02</span><i aria-hidden="true"></i>本机体检</p><h2 id="local-title">下一步，检查这栋「房子」。</h2><p>浏览器只能看到小请求走过的一段路。本机工具进一步检查安装、CLI 登录、启动环境、代理与路由。</p></div>
-      <div class="local-grid"><div class="local-guide"><span class="tag tag--info">Agent Skill</span><h3>让有本地终端权限的 Agent 来核对。</h3><p>将开源项目中的 Skill 交给 Agent，先运行只读检查。网络探测需要单独启用。云端 Agent 检查的是它所在的机器。</p><a class="text-link" href="https://github.com/HeiGeAi/claude-environment-check#使用方式" target="_blank" rel="noopener noreferrer">查看安装与使用方法 <span aria-hidden="true">↗</span></a><p class="caption download-copy">也可以<a href="../downloads/check.py" download>下载本机检查脚本</a>，先查看源码，再用 Python 运行。默认只读，不要求安装额外 Python 库。</p><div class="command-wrap"><span class="command-label">本机只读检查</span><pre class="command"><code>python3 check.py --run-location local_mac</code></pre></div></div><div class="import-panel panel"><div class="import-symbol" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M14 7h15l8 8v25H14zM29 7v9h8M21 23h9M21 29h9"/></svg></div><h3>把本机报告带到这里。</h3><p>选择工具导出的 JSON，我们帮您读懂其中的证据。</p><p class="caption">最多 1 MiB，只在此浏览器解析，不上传。导入记录反映报告生成时的机器状态。</p><label class="button secondary file-label" for="report-file">选择本机报告 <span aria-hidden="true">↑</span></label><input id="report-file" disabled type="file" accept=".json,application/json"><button class="text-button" id="reset" hidden>清除当前报告</button><p id="import-error" role="alert" class="error" hidden></p></div></div>
+      <div class="local-grid"><div class="local-guide"><div class="house-diagram" aria-hidden="true"><svg viewBox="0 0 480 180"><defs><linearGradient id="house-light"><stop stop-color="#ffd08a"/><stop offset="1" stop-color="#ff7a52"/></linearGradient></defs><path class="house-outline" d="M54 150V56L127 18l74 38v94M127 18v132M54 56l73 40 74-40M127 96v54M245 150V68h154v82M264 88h32v30h-32zM313 88h32v30h-32zM361 88h20v30h-20z"/><path class="house-route" d="M201 132h44M54 158h347"/><g class="house-windows"><path d="M73 74l23 13v25l-23-13zM146 109l23-13v25l-23 13z"/><rect x="267" y="91" width="26" height="24" rx="2"/><rect x="316" y="91" width="26" height="24" rx="2"/></g><circle class="house-packet" cx="215" cy="132" r="4"/><text x="56" y="177">本机环境</text><text x="244" y="177">报告留在你的浏览器</text></svg></div><span class="tag tag--info">Agent Skill</span><h3>让有本地终端权限的 Agent 来核对。</h3><p>将开源项目中的 Skill 交给 Agent，先运行只读检查。网络探测需要单独启用。云端 Agent 检查的是它所在的机器。</p><a class="text-link" href="https://github.com/HeiGeAi/claude-environment-check#使用方式" target="_blank" rel="noopener noreferrer">查看安装与使用方法 <span aria-hidden="true">↗</span></a><p class="caption download-copy">也可以<a href="../downloads/check.py" download>下载本机检查脚本</a>，先查看源码，再用 Python 运行。默认只读，不要求安装额外 Python 库。</p><div class="command-wrap"><span class="command-label">本机只读检查</span><pre class="command"><code>python3 check.py --run-location local_mac</code></pre></div></div><div class="import-panel panel"><div class="import-symbol" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M14 7h15l8 8v25H14zM29 7v9h8M21 23h9M21 29h9"/></svg></div><h3>把本机报告带到这里。</h3><p>选择工具导出的 JSON，我们帮您读懂其中的证据。</p><p class="caption">最多 1 MiB，只在此浏览器解析，不上传。导入记录反映报告生成时的机器状态。</p><label class="button secondary file-label" for="report-file">选择本机报告 <span aria-hidden="true">↑</span></label><input id="report-file" disabled type="file" accept=".json,application/json"><button class="text-button" id="reset" hidden>清除当前报告</button><p id="import-error" role="alert" class="error" hidden></p></div></div>
     </section>
     <section class="scope-footer section"><div><p class="eyebrow"><span class="latin">Evidence, not a promise.</span></p><h2>把「未验证」，<br>认真留在结果里。</h2></div><div><p>公网 IP、代理开关或一次成功连接，都不能证明所有流量始终走同一条路径。DNS、故障阻断与账号状态，需要各自独立的证据。</p><a class="button secondary" href="../">回到手册继续排查 <span aria-hidden="true">↗</span></a></div></section>
   </main>

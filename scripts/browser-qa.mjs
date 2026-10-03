@@ -42,11 +42,12 @@ try {
     assert.equal(await page.locator('body').evaluate(node => getComputedStyle(node).backgroundColor), 'rgb(7, 8, 12)');
     await page.evaluate(() => document.fonts.ready);
     assert.ok((await page.locator('h1').evaluate(node => getComputedStyle(node).fontFamily)).includes('GuideSerif'));
+    await page.waitForFunction(() => ['complete', 'static'].includes(document.documentElement.dataset.intro));
     evidence.checks.shared_manual_visual_system = true;
     assert.equal(externalRequests.length, 0, 'initial page must not contact probes');
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
     assert.equal(await page.locator('a[href="../"]').count() > 0, true);
-    await page.screenshot({ path: path.join(output, `check-${viewport.width}.png`), fullPage: true });
+    await page.screenshot({ path: path.join(output, `check-${viewport.width}.png`) });
     await page.locator('.endpoint-fold summary').click();
     assert.equal(await page.locator('.endpoints').isVisible(), true);
     await page.locator('.endpoint-fold summary').click();
