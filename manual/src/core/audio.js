@@ -39,7 +39,8 @@
 import { createEngine } from './audio/engine.js'
 import { MOODS } from './audio/theory.js'
 
-const KEY = 'guide:sound'
+// v2：旧版启动时会强制写入 '0'，换键让这些记录失效，默认开声
+const KEY = 'guide:sound:v2'
 const LOOKAHEAD = 0.18
 const TICK_MS = 25
 const FADE_IN = 3

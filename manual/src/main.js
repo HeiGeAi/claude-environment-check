@@ -182,9 +182,9 @@ initSmoothScroll()
 async function boot() {
   // 等字体就绪再开场，避免标题闪动（最多等 1.5 秒）
   await Promise.race([document.fonts?.ready, new Promise((r) => setTimeout(r, 1500))])
-  // 阅读优先：直接进入手册，声音由顶部按钮主动开启。
-  const sound = false
-  audio.disable()
+  // 默认开声；访客主动关过就记住。浏览器要求首次点击、按键或触屏后才真正出声。
+  const sound = audio.remembered() !== '0'
+  sound ? audio.enable() : audio.disable()
   syncSound(audio.isOn())
   lockScroll(false)
   ScrollTrigger.refresh()
