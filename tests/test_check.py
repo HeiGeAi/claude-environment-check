@@ -159,6 +159,8 @@ class SafetyTests(unittest.TestCase):
             self.assertEqual(len(list(output.iterdir())), 2)
 
     def test_aggregate_unknown_does_not_pass(self):
+        self.assertEqual(core.aggregate([]), ("INCOMPLETE", 3))
+        self.assertEqual(core.aggregate([core.check("optional", "PASS", required=False)]), ("INCOMPLETE", 3))
         self.assertEqual(core.aggregate([core.check("required", "UNKNOWN", required=True)]), ("INCOMPLETE", 3))
         self.assertEqual(core.aggregate([core.check("required", "SKIPPED", required=True)]), ("INCOMPLETE", 3))
         self.assertEqual(core.aggregate([core.check("required", "PASS", required=True), core.check("optional", "UNKNOWN")]), ("VERIFIED_IN_SCOPE", 0))

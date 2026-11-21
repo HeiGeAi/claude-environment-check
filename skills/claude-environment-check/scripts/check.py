@@ -384,6 +384,8 @@ def aggregate(checks):
         return "INCOMPLETE", 3
     if any(item["status"] == "WARN" for item in checks):
         return "ISSUES_FOUND", 1
+    if not any(item["required"] for item in checks):
+        return "INCOMPLETE", 3
     return "VERIFIED_IN_SCOPE", 0
 
 
