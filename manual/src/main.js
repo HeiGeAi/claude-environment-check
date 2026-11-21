@@ -40,11 +40,16 @@ const st = document.createElement('style')
 st.textContent = mascotCSS
 document.head.appendChild(st)
 
+const levelStore = {
+  get() { try { return localStorage.getItem(LEVEL_KEY) } catch { return null } },
+  set(v) { try { localStorage.setItem(LEVEL_KEY, v) } catch {} },
+}
+
 /* ---------------- 两档阅读：小白 / 进阶 ---------------- */
 function setLevel(level, { silent = false } = {}) {
   const pro = level === 'pro'
   root.classList.toggle('is-pro', pro)
-  localStorage.setItem(LEVEL_KEY, pro ? 'pro' : 'newbie')
+  levelStore.set(pro ? 'pro' : 'newbie')
   document.querySelectorAll('.level-switch button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.level === (pro ? 'pro' : 'newbie'))))
   bus.emit('level', { pro })
   requestAnimationFrame(() => ScrollTrigger.refresh())
@@ -173,7 +178,7 @@ chapters.forEach(({ mod, el, num }) => {
 })
 
 /* ---------------- 启动 ---------------- */
-setLevel(localStorage.getItem(LEVEL_KEY) === 'pro' ? 'pro' : 'newbie', { silent: true })
+setLevel(levelStore.get() === 'pro' ? 'pro' : 'newbie', { silent: true })
 bindSfxDelegation()
 enhanceCodeBlocks(document)
 reveal(document)
